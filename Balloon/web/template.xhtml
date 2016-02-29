@@ -7,10 +7,10 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="pageName">Default Title</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="jsfcrud.css"/>
     </h:head>
 
     <h:body>
@@ -20,10 +20,11 @@
             </div>
             
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h1>
                         <ui:insert name="title">Default Title</ui:insert>
                     </h1>
+                    <ui:insert name="action"></ui:insert>
                     <p>
                         <ui:insert name="body">Default Body</ui:insert>
                     </p>

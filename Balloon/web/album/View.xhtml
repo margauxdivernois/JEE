@@ -7,40 +7,48 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ViewAlbumTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ViewAlbumTitle} - #{albumController.selected.AName}"></h:outputText>
+        </ui:define>
+        <ui:define name="action">
+            <h:form>
+                <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
+                <h:commandButton class="btn btn-default margin-side" action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
+                <h:commandButton class="btn btn-default"  action="#{albumController.prepareList}" value="#{bundle.ViewAlbumShowAllLink}"/>
+            </h:form>
         </ui:define>
         <ui:define name="body">
+            
             <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewAlbumLabel_idAlbum}"/>
-                    <h:outputText value="#{albumController.selected.idAlbum}" title="#{bundle.ViewAlbumTitle_idAlbum}"/>
-                    <h:outputText value="#{bundle.ViewAlbumLabel_AName}"/>
-                    <h:outputText value="#{albumController.selected.AName}" title="#{bundle.ViewAlbumTitle_AName}"/>
-                    <h:outputText value="#{bundle.ViewAlbumLabel_ADescription}"/>
-                    <h:outputText value="#{albumController.selected.ADescription}" title="#{bundle.ViewAlbumTitle_ADescription}"/>
-                    <h:outputText value="#{bundle.ViewAlbumLabel_apublicVisibility}"/>
-                    <h:outputText value="#{albumController.selected.apublicVisibility}" title="#{bundle.ViewAlbumTitle_apublicVisibility}"/>
-                    <h:outputText value="#{bundle.ViewAlbumLabel_acreationDate}"/>
-                    <h:outputText value="#{albumController.selected.acreationDate}" title="#{bundle.ViewAlbumTitle_acreationDate}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewAlbumEditLink}"/>
-                <br />
-                <h:commandLink action="#{albumController.prepareCreate}" value="#{bundle.ViewAlbumCreateLink}" />
-                <br />
-                <h:commandLink action="#{albumController.prepareList}" value="#{bundle.ViewAlbumShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewAlbumIndexLink}"/>
 
+            <h:form>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class='col-md-6'>
+                            <img src="../resources/image/noPicture.jpg" width="500" height="332" alt="noPicture"/>
+                        </div>
+                        <div class='col-md-6'>
+                            <p>
+                                <h:outputLabel value="#{bundle.ViewAlbumLabel_ADescription}" for="apublicVisibility" /> 
+                                <h:outputText value="#{albumController.selected.ADescription}" title="#{bundle.ViewAlbumTitle_ADescription}"/>
+                            </p>
+
+                            <p>
+                                <h:outputLabel value="#{bundle.ViewAlbumLabel_apublicVisibility}" for="apublicVisibility" /> 
+                                <h:outputText value="#{bundle.ViewAlbumVisibilityPrivate}" rendered="#{albumController.selected.apublicVisibility}" />
+                                <h:outputText value="#{bundle.ViewAlbumVisibilityPublic}" rendered="#{!albumController.selected.apublicVisibility}" />
+                            </p>
+
+                            <p>
+                                <h:outputLabel value="#{bundle.ViewAlbumLabel_acreationDate}" for="apublicVisibility" />
+                                <h:outputText value="#{albumController.selected.acreationDate}" title="#{bundle.ViewAlbumTitle_acreationDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </h:form>
         </ui:define>
     </ui:composition>

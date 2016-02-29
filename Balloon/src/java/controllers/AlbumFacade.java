@@ -23,7 +23,7 @@ public class AlbumFacade extends AbstractFacade<Album> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    
     public AlbumFacade() {
         super(Album.class);
     }
