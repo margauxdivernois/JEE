@@ -6,6 +6,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -61,6 +63,7 @@ public class Album implements Serializable {
     private Date acreationDate;
 
     public Album() {
+        this.acreationDate = new Date();
     }
 
     public Album(Integer idAlbum) {
