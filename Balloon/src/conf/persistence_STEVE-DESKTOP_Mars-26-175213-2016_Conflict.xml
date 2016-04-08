@@ -3,21 +3,6 @@
   <persistence-unit name="BalloonPU" transaction-type="JTA">
     <jta-data-source>jdbc/myDatasource</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    
-    <provider>oracle.toplink.essentials.PersistenceProvider</provider>
-
-    <class>entities.Album</class>
-    <class>entities.Image</class>
-    <class>entities.Love</class>
-    <class>entities.Permission</class>
-    <class>entities.User</class>
-
-    
-    
-    
-    
     <properties/>
   </persistence-unit>
-  
-
 </persistence>

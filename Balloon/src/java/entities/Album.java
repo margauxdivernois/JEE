@@ -6,8 +6,8 @@
 package entities;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,19 +62,30 @@ public class Album implements Serializable {
     @Column(name = "a_creationDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date acreationDate;
+    
+    
+    @OneToMany(targetEntity=Image.class, mappedBy="album")
+    private Collection images;
 
     public Album() {
         this.acreationDate = new Date();
+        images = new ArrayList<Image>();
     }
 
     public Album(Integer idAlbum) {
+        images = new ArrayList<Image>();
         this.idAlbum = idAlbum;
     }
 
     public Album(Integer idAlbum, String aName, boolean apublicVisibility) {
+        images = new ArrayList<Image>();
         this.idAlbum = idAlbum;
         this.aName = aName;
         this.apublicVisibility = apublicVisibility;
+    }
+    
+    public Collection getImages() {
+        return images;
     }
 
     public Integer getIdAlbum() {
@@ -140,5 +152,9 @@ public class Album implements Serializable {
     public String toString() {
         return "entities.Album[ idAlbum=" + idAlbum + " ]";
     }
+    
+    
+    
+
     
 }

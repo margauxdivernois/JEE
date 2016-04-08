@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import entities.Album;
 import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import javax.persistence.criteria.Order;
  * @author Margaux
  */
 @Stateless
-public class ImageFacade extends AbstractFacade<Image> {
+public class AlbumFacade extends AbstractFacade<Album> {
     @PersistenceContext(unitName = "BalloonPU")
     private EntityManager em;
 
@@ -24,9 +25,15 @@ public class ImageFacade extends AbstractFacade<Image> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
-    public ImageFacade() {
-        super(Image.class);
+    
+    public AlbumFacade() {
+        super(Album.class);
+        
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Image image = em.find((Class<Album>) Album.class, 111);
+        System.out.println("Customer details for order 111 : " + order.());
+        em.close();
+        entityManagerFactory.close();
     }
     
 }
