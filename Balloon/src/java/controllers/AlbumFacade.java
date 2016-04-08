@@ -6,9 +6,11 @@
 package controllers;
 
 import entities.Album;
+import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Order;
 
 /**
  *
@@ -26,6 +28,8 @@ public class AlbumFacade extends AbstractFacade<Album> {
     
     public AlbumFacade() {
         super(Album.class);
+        
+       
     }
     
 }

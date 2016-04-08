@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -98,6 +99,9 @@ public class Image implements Serializable {
     @Column(name = "fk_album")
     private int fkAlbum;
 
+    @ManyToOne
+    private Album album;
+    
     public Image() {
     }
 
@@ -117,6 +121,14 @@ public class Image implements Serializable {
         this.iLongitude = iLongitude;
         this.iCamera = iCamera;
         this.fkAlbum = fkAlbum;
+    }
+    
+    public Album getAlbum() {
+        return album;
+    }
+    
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     public Integer getIdImage() {
