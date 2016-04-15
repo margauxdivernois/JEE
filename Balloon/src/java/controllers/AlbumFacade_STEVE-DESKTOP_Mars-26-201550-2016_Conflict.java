@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package facade;
+package controllers;
 
 import entities.Album;
 import entities.Image;
@@ -29,7 +29,11 @@ public class AlbumFacade extends AbstractFacade<Album> {
     public AlbumFacade() {
         super(Album.class);
         
-       
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Image image = em.find((Class<Album>) Album.class, 111);
+        System.out.println("Customer details for order 111 : " + order.());
+        em.close();
+        entityManagerFactory.close();
     }
     
 }
