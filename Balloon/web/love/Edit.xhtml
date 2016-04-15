@@ -17,14 +17,18 @@
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditLoveLabel_idLove}" for="idLove" />
                     <h:inputText id="idLove" value="#{loveController.selected.idLove}" title="#{bundle.EditLoveTitle_idLove}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_idLove}"/>
-                    <h:outputLabel value="#{bundle.EditLoveLabel_fkImage}" for="fkImage" />
-                    <h:inputText id="fkImage" value="#{loveController.selected.fkImage}" title="#{bundle.EditLoveTitle_fkImage}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_fkImage}"/>
-                    <h:outputLabel value="#{bundle.EditLoveLabel_fkUser}" for="fkUser" />
-                    <h:inputText id="fkUser" value="#{loveController.selected.fkUser}" title="#{bundle.EditLoveTitle_fkUser}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_fkUser}"/>
                     <h:outputLabel value="#{bundle.EditLoveLabel_LDate}" for="LDate" />
                     <h:inputText id="LDate" value="#{loveController.selected.LDate}" title="#{bundle.EditLoveTitle_LDate}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_LDate}">
                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                     </h:inputText>
+                    <h:outputLabel value="#{bundle.EditLoveLabel_fkImage}" for="fkImage" />
+                    <h:selectOneMenu id="fkImage" value="#{loveController.selected.fkImage}" title="#{bundle.EditLoveTitle_fkImage}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_fkImage}">
+                        <f:selectItems value="#{imageController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditLoveLabel_fkUser}" for="fkUser" />
+                    <h:selectOneMenu id="fkUser" value="#{loveController.selected.fkUser}" title="#{bundle.EditLoveTitle_fkUser}" required="true" requiredMessage="#{bundle.EditLoveRequiredMessage_fkUser}">
+                        <f:selectItems value="#{userController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
                 </h:panelGrid>
                 <h:commandLink action="#{loveController.update}" value="#{bundle.EditLoveSaveLink}"/>
                 <br />

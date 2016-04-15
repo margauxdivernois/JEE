@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.Image;
-import views.util.JsfUtil;
-import views.util.PaginationHelper;
+import controllers.util.JsfUtil;
+import controllers.util.PaginationHelper;
 import facades.ImageFacade;
 
 import java.io.Serializable;

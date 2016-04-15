@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.Permission;
-import views.util.JsfUtil;
-import views.util.PaginationHelper;
+import controllers.util.JsfUtil;
+import controllers.util.PaginationHelper;
 import facades.PermissionFacade;
 
 import java.io.Serializable;

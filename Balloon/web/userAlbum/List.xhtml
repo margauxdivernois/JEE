@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUserAlbumTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListUserAlbumEmpty}" rendered="#{userAlbumController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{userAlbumController.items.rowCount > 0}">
+                <h:outputText value="#{userAlbumController.pagination.pageFirstItem + 1}..#{userAlbumController.pagination.pageLastItem + 1}/#{userAlbumController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{userAlbumController.previous}" value="#{bundle.Previous} #{userAlbumController.pagination.pageSize}" rendered="#{userAlbumController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{userAlbumController.next}" value="#{bundle.Next} #{userAlbumController.pagination.pageSize}" rendered="#{userAlbumController.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{userAlbumController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUserAlbumTitle_idUserAlbum}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUserAlbum}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUserAlbumTitle_fkPermission}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fkPermission}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUserAlbumTitle_fkAlbum}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fkAlbum}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListUserAlbumTitle_fkUser}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fkUser}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink action="#{userAlbumController.prepareView}" value="#{bundle.ListUserAlbumViewLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{userAlbumController.prepareEdit}" value="#{bundle.ListUserAlbumEditLink}"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{userAlbumController.destroy}" value="#{bundle.ListUserAlbumDestroyLink}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <br />
+            <h:commandLink action="#{userAlbumController.prepareCreate}" value="#{bundle.ListUserAlbumCreateLink}"/>
+            <br />
+            <br />
+            <h:link outcome="/index" value="#{bundle.ListUserAlbumIndexLink}"/>
+        </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

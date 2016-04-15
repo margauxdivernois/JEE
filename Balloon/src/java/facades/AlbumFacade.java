@@ -6,15 +6,13 @@
 package facades;
 
 import entities.Album;
-import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.Order;
 
 /**
  *
- * @author Margaux
+ * @author stevevisinand
  */
 @Stateless
 public class AlbumFacade extends AbstractFacade<Album> {
@@ -25,11 +23,9 @@ public class AlbumFacade extends AbstractFacade<Album> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     public AlbumFacade() {
         super(Album.class);
-        
-       
     }
     
 }

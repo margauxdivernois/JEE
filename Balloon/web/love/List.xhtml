@@ -28,6 +28,14 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListLoveTitle_LDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.LDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLoveTitle_fkImage}"/>
                             </f:facet>
                             <h:outputText value="#{item.fkImage}"/>
@@ -37,14 +45,6 @@
                                 <h:outputText value="#{bundle.ListLoveTitle_fkUser}"/>
                             </f:facet>
                             <h:outputText value="#{item.fkUser}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListLoveTitle_LDate}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.LDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
                         </h:column>
                         <h:column>
                             <f:facet name="header">

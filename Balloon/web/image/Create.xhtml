@@ -40,7 +40,9 @@
                     <h:outputLabel value="#{bundle.CreateImageLabel_ICamera}" for="ICamera" />
                     <h:inputText id="ICamera" value="#{imageController.selected.ICamera}" title="#{bundle.CreateImageTitle_ICamera}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_ICamera}"/>
                     <h:outputLabel value="#{bundle.CreateImageLabel_fkAlbum}" for="fkAlbum" />
-                    <h:inputText id="fkAlbum" value="#{imageController.selected.fkAlbum}" title="#{bundle.CreateImageTitle_fkAlbum}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_fkAlbum}"/>
+                    <h:selectOneMenu id="fkAlbum" value="#{imageController.selected.fkAlbum}" title="#{bundle.CreateImageTitle_fkAlbum}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_fkAlbum}">
+                        <f:selectItems value="#{albumController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{imageController.create}" value="#{bundle.CreateImageSaveLink}" />

@@ -6,26 +6,32 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Margaux
+ * @author stevevisinand
  */
 @Entity
 @Table(name = "image")
@@ -39,8 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Image.findByIdateUpload", query = "SELECT i FROM Image i WHERE i.idateUpload = :idateUpload"),
     @NamedQuery(name = "Image.findByILatititude", query = "SELECT i FROM Image i WHERE i.iLatititude = :iLatititude"),
     @NamedQuery(name = "Image.findByILongitude", query = "SELECT i FROM Image i WHERE i.iLongitude = :iLongitude"),
-    @NamedQuery(name = "Image.findByICamera", query = "SELECT i FROM Image i WHERE i.iCamera = :iCamera"),
-    @NamedQuery(name = "Image.findByFkAlbum", query = "SELECT i FROM Image i WHERE i.fkAlbum = :fkAlbum")})
+    @NamedQuery(name = "Image.findByICamera", query = "SELECT i FROM Image i WHERE i.iCamera = :iCamera")})
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -93,10 +98,11 @@ public class Image implements Serializable {
     @Size(min = 1, max = 350)
     @Column(name = "i_camera")
     private String iCamera;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fk_album")
-    private int fkAlbum;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkImage")
+    private Collection<Love> loveCollection;
+    @JoinColumn(name = "fk_album", referencedColumnName = "id_album")
+    @ManyToOne(optional = false)
+    private Album fkAlbum;
 
     public Image() {
     }
@@ -105,7 +111,7 @@ public class Image implements Serializable {
         this.idImage = idImage;
     }
 
-    public Image(Integer idImage, String iName, String iFilename, String iDescription, Date idateCapture, Date idateUpload, String iCopyright, double iLatititude, double iLongitude, String iCamera, int fkAlbum) {
+    public Image(Integer idImage, String iName, String iFilename, String iDescription, Date idateCapture, Date idateUpload, String iCopyright, double iLatititude, double iLongitude, String iCamera) {
         this.idImage = idImage;
         this.iName = iName;
         this.iFilename = iFilename;
@@ -116,7 +122,6 @@ public class Image implements Serializable {
         this.iLatititude = iLatititude;
         this.iLongitude = iLongitude;
         this.iCamera = iCamera;
-        this.fkAlbum = fkAlbum;
     }
 
     public Integer getIdImage() {
@@ -199,11 +204,20 @@ public class Image implements Serializable {
         this.iCamera = iCamera;
     }
 
-    public int getFkAlbum() {
+    @XmlTransient
+    public Collection<Love> getLoveCollection() {
+        return loveCollection;
+    }
+
+    public void setLoveCollection(Collection<Love> loveCollection) {
+        this.loveCollection = loveCollection;
+    }
+
+    public Album getFkAlbum() {
         return fkAlbum;
     }
 
-    public void setFkAlbum(int fkAlbum) {
+    public void setFkAlbum(Album fkAlbum) {
         this.fkAlbum = fkAlbum;
     }
 

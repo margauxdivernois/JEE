@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.Love;
-import views.util.JsfUtil;
-import views.util.PaginationHelper;
+import controllers.util.JsfUtil;
+import controllers.util.PaginationHelper;
 import facades.LoveFacade;
 
 import java.io.Serializable;

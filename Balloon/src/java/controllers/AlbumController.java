@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.Album;
-import views.util.JsfUtil;
-import views.util.PaginationHelper;
+import controllers.util.JsfUtil;
+import controllers.util.PaginationHelper;
 import facades.AlbumFacade;
 
 import java.io.Serializable;
@@ -83,7 +83,7 @@ public class AlbumController implements Serializable {
         try {
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
-            return "List";
+            return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;

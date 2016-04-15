@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUserAlbumTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUserAlbumLabel_idUserAlbum}"/>
+                    <h:outputText value="#{userAlbumController.selected.idUserAlbum}" title="#{bundle.ViewUserAlbumTitle_idUserAlbum}"/>
+                    <h:outputText value="#{bundle.ViewUserAlbumLabel_fkPermission}"/>
+                    <h:outputText value="#{userAlbumController.selected.fkPermission}" title="#{bundle.ViewUserAlbumTitle_fkPermission}"/>
+                    <h:outputText value="#{bundle.ViewUserAlbumLabel_fkAlbum}"/>
+                    <h:outputText value="#{userAlbumController.selected.fkAlbum}" title="#{bundle.ViewUserAlbumTitle_fkAlbum}"/>
+                    <h:outputText value="#{bundle.ViewUserAlbumLabel_fkUser}"/>
+                    <h:outputText value="#{userAlbumController.selected.fkUser}" title="#{bundle.ViewUserAlbumTitle_fkUser}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{userAlbumController.destroyAndView}" value="#{bundle.ViewUserAlbumDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUserAlbumEditLink}"/>
+                <br />
+                <h:commandLink action="#{userAlbumController.prepareCreate}" value="#{bundle.ViewUserAlbumCreateLink}" />
+                <br />
+                <h:commandLink action="#{userAlbumController.prepareList}" value="#{bundle.ViewUserAlbumShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUserAlbumIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

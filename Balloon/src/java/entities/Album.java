@@ -6,10 +6,10 @@
 package entities;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,19 +18,18 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
- 
-
-
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Margaux
+ * @author stevevisinand
  */
 @Entity
 @Table(name = "album")
@@ -64,6 +63,10 @@ public class Album implements Serializable {
     @Column(name = "a_creationDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date acreationDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAlbum")
+    private Collection<Image> imageCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAlbum")
+    private Collection<UserAlbum> userAlbumCollection;
 
     public Album() {
         this.acreationDate = new Date();
@@ -117,6 +120,24 @@ public class Album implements Serializable {
 
     public void setAcreationDate(Date acreationDate) {
         this.acreationDate = acreationDate;
+    }
+
+    @XmlTransient
+    public Collection<Image> getImageCollection() {
+        return imageCollection;
+    }
+
+    public void setImageCollection(Collection<Image> imageCollection) {
+        this.imageCollection = imageCollection;
+    }
+
+    @XmlTransient
+    public Collection<UserAlbum> getUserAlbumCollection() {
+        return userAlbumCollection;
+    }
+
+    public void setUserAlbumCollection(Collection<UserAlbum> userAlbumCollection) {
+        this.userAlbumCollection = userAlbumCollection;
     }
 
     @Override

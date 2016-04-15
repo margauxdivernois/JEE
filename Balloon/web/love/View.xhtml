@@ -17,14 +17,14 @@
                 <h:panelGrid columns="2">
                     <h:outputText value="#{bundle.ViewLoveLabel_idLove}"/>
                     <h:outputText value="#{loveController.selected.idLove}" title="#{bundle.ViewLoveTitle_idLove}"/>
-                    <h:outputText value="#{bundle.ViewLoveLabel_fkImage}"/>
-                    <h:outputText value="#{loveController.selected.fkImage}" title="#{bundle.ViewLoveTitle_fkImage}"/>
-                    <h:outputText value="#{bundle.ViewLoveLabel_fkUser}"/>
-                    <h:outputText value="#{loveController.selected.fkUser}" title="#{bundle.ViewLoveTitle_fkUser}"/>
                     <h:outputText value="#{bundle.ViewLoveLabel_LDate}"/>
                     <h:outputText value="#{loveController.selected.LDate}" title="#{bundle.ViewLoveTitle_LDate}">
                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                     </h:outputText>
+                    <h:outputText value="#{bundle.ViewLoveLabel_fkImage}"/>
+                    <h:outputText value="#{loveController.selected.fkImage}" title="#{bundle.ViewLoveTitle_fkImage}"/>
+                    <h:outputText value="#{bundle.ViewLoveLabel_fkUser}"/>
+                    <h:outputText value="#{loveController.selected.fkUser}" title="#{bundle.ViewLoveTitle_fkUser}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{loveController.destroyAndView}" value="#{bundle.ViewLoveDestroyLink}"/>

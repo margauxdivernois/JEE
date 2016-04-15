@@ -1,9 +1,9 @@
 package controllers;
 
-import entities.User;
+import entities.UserAlbum;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import facades.UserFacade;
+import facades.UserAlbumFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "userController")
+@ManagedBean(name = "userAlbumController")
 @SessionScoped
-public class UserController implements Serializable {
+public class UserAlbumController implements Serializable {
 
-    private User current;
+    private UserAlbum current;
     private DataModel items = null;
     @EJB
-    private facades.UserFacade ejbFacade;
+    private facades.UserAlbumFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public UserController() {
+    public UserAlbumController() {
     }
 
-    public User getSelected() {
+    public UserAlbum getSelected() {
         if (current == null) {
-            current = new User();
+            current = new UserAlbum();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UserFacade getFacade() {
+    private UserAlbumFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +68,13 @@ public class UserController implements Serializable {
     }
 
     public String prepareView() {
-        current = (User) getItems().getRowData();
+        current = (UserAlbum) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new User();
+        current = new UserAlbum();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +82,7 @@ public class UserController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserAlbumCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +91,7 @@ public class UserController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (User) getItems().getRowData();
+        current = (UserAlbum) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +99,7 @@ public class UserController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserAlbumUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +108,7 @@ public class UserController implements Serializable {
     }
 
     public String destroy() {
-        current = (User) getItems().getRowData();
+        current = (UserAlbum) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +132,7 @@ public class UserController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserAlbumDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,16 +188,16 @@ public class UserController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    @FacesConverter(forClass = User.class)
-    public static class UserControllerConverter implements Converter {
+    @FacesConverter(forClass = UserAlbum.class)
+    public static class UserAlbumControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UserController controller = (UserController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "userController");
+            UserAlbumController controller = (UserAlbumController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "userAlbumController");
             return controller.ejbFacade.find(getKey(value));
         }
 
@@ -218,11 +218,11 @@ public class UserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof User) {
-                User o = (User) object;
-                return getStringKey(o.getIdUser());
+            if (object instanceof UserAlbum) {
+                UserAlbum o = (UserAlbum) object;
+                return getStringKey(o.getIdUserAlbum());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + User.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + UserAlbum.class.getName());
             }
         }
 
