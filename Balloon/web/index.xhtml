@@ -8,7 +8,7 @@
     <ui:define name="pageName">Facelet Title</ui:define>
     <ui:define name="title">Hello!!!</ui:define>
     
-    <ui:define name="body">Hello from Facelets
+    <ui:define name="body">
         <br />
         <h:link outcome="/album/List" value="Show All Album Items"/>
         <br />
@@ -19,6 +19,12 @@
         <h:link outcome="/permission/List" value="Show All Permission Items"/>
         <br />
         <h:link outcome="/user/List" value="Show All User Items"/>
+
+<ui:fragment rendered="#{not empty request.remoteUser}">
+    <p>This is only rendered when someone's been logged in.</p>
+    <p>Welcome, you're logged in as #{request.remoteUser}!</p>
+</ui:fragment>
+        
     </ui:define>
     
 </ui:composition>

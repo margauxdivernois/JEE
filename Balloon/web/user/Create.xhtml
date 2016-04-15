@@ -10,31 +10,45 @@
             <h:outputText value="#{bundle.CreateUserTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            
             <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateUserLabel_idUser}" for="idUser" />
-                    <h:inputText id="idUser" value="#{userController.selected.idUser}" title="#{bundle.CreateUserTitle_idUser}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_idUser}"/>
-                    <h:outputLabel value="#{bundle.CreateUserLabel_UUsername}" for="UUsername" />
-                    <h:inputText id="UUsername" value="#{userController.selected.UUsername}" title="#{bundle.CreateUserTitle_UUsername}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UUsername}"/>
-                    <h:outputLabel value="#{bundle.CreateUserLabel_UEmail}" for="UEmail" />
-                    <h:inputText id="UEmail" value="#{userController.selected.UEmail}" title="#{bundle.CreateUserTitle_UEmail}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UEmail}"/>
-                    <h:outputLabel value="#{bundle.CreateUserLabel_UPassword}" for="UPassword" />
-                    <h:inputText id="UPassword" value="#{userController.selected.UPassword}" title="#{bundle.CreateUserTitle_UPassword}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UPassword}"/>
-                    <h:outputLabel value="#{bundle.CreateUserLabel_UIcon}" for="UIcon" />
-                    <h:inputText id="UIcon" value="#{userController.selected.UIcon}" title="#{bundle.CreateUserTitle_UIcon}" />
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{userController.create}" value="#{bundle.CreateUserSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{userController.prepareList}" value="#{bundle.CreateUserShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateUserIndexLink}"/>
+            
+            <h:form class="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UUsername}" for="UUsername" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UUsername" value="#{userController.selected.UUsername}" title="#{bundle.CreateUserTitle_UUsername}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UUsername}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UEmail}" for="UEmail"/>
+                    <div class="col-sm-10">
+                        <h:inputText id="UEmail" value="#{userController.selected.UEmail}" title="#{bundle.CreateUserTitle_UEmail}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UEmail}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UPassword}" for="UPassword" />
+                    <div class="col-sm-10">
+                        <h:inputSecret id="UPassword" value="#{userController.selected.UPassword}" title="#{bundle.CreateUserTitle_UPassword}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UPassword}"/>	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UIcon}" for="UIcon" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UIcon" value="#{userController.selected.UIcon}" title="#{bundle.CreateUserTitle_UIcon}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <h:commandButton class="btn btn-primary" action="#{userController.create}" value="#{bundle.CreateUserSaveLink}" />
+                        <h:link outcome="/login" class="btn btn-default margin-side" value="#{bundle.CreateUserLoginLink}" />
+                        <h:link outcome="/index" class="btn btn-default" value="#{bundle.CreateUserCancelLink}"/>
+                    </div>
+                </div>
             </h:form>
+
         </ui:define>
     </ui:composition>
 

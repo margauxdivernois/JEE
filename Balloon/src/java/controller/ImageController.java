@@ -1,9 +1,9 @@
-package views;
+package controller;
 
-import entities.User;
+import entities.Image;
 import views.util.JsfUtil;
 import views.util.PaginationHelper;
-import controllers.UserFacade;
+import facade.ImageFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "userController")
+@ManagedBean(name = "imageController")
 @SessionScoped
-public class UserController implements Serializable {
+public class ImageController implements Serializable {
 
-    private User current;
+    private Image current;
     private DataModel items = null;
     @EJB
-    private controllers.UserFacade ejbFacade;
+    private facade.ImageFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public UserController() {
+    public ImageController() {
     }
 
-    public User getSelected() {
+    public Image getSelected() {
         if (current == null) {
-            current = new User();
+            current = new Image();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private UserFacade getFacade() {
+    private ImageFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +68,13 @@ public class UserController implements Serializable {
     }
 
     public String prepareView() {
-        current = (User) getItems().getRowData();
+        current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new User();
+        current = new Image();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +82,7 @@ public class UserController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +91,7 @@ public class UserController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (User) getItems().getRowData();
+        current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +99,7 @@ public class UserController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +108,7 @@ public class UserController implements Serializable {
     }
 
     public String destroy() {
-        current = (User) getItems().getRowData();
+        current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +132,7 @@ public class UserController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,16 +188,16 @@ public class UserController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    @FacesConverter(forClass = User.class)
-    public static class UserControllerConverter implements Converter {
+    @FacesConverter(forClass = Image.class)
+    public static class ImageControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UserController controller = (UserController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "userController");
+            ImageController controller = (ImageController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "imageController");
             return controller.ejbFacade.find(getKey(value));
         }
 
@@ -218,11 +218,11 @@ public class UserController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof User) {
-                User o = (User) object;
-                return getStringKey(o.getIdUser());
+            if (object instanceof Image) {
+                Image o = (Image) object;
+                return getStringKey(o.getIdImage());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + User.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Image.class.getName());
             }
         }
 

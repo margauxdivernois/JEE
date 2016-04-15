@@ -14,10 +14,25 @@
     </h:head>
 
     <h:body>
-        <div class="container-fluid">
-            <div class="navbar navbar-inverse">
-                <div class="navbar-brand">DEMO WEB</div>
-            </div>
+        <div class="container-fluid"> 
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                        <ui:fragment rendered="#{empty request.remoteUser}">
+                            <li class="active"><h:link outcome="/login" value="Sign in"/></li>
+                            <li class="active"><h:link outcome="/register" value="Register"/></li>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{not empty request.remoteUser}">
+                            <h:form>
+                                <li class="active"><h:commandLink action="#{request.logout()}" value="Logout"  /></li>
+                            </h:form>
+
+                        </ui:fragment>
+                        
+                        
+                    </ul>
+                </div>
+            </nav>
             
             <div class="row">
                 <div class="col-md-12">

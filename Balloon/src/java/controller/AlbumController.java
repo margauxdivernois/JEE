@@ -1,9 +1,9 @@
-package views;
+package controller;
 
-import entities.Love;
+import entities.Album;
 import views.util.JsfUtil;
 import views.util.PaginationHelper;
-import controllers.LoveFacade;
+import facade.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "loveController")
+@ManagedBean(name = "albumController")
 @SessionScoped
-public class LoveController implements Serializable {
+public class AlbumController implements Serializable {
 
-    private Love current;
+    private Album current;
     private DataModel items = null;
     @EJB
-    private controllers.LoveFacade ejbFacade;
+    private facade.AlbumFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public LoveController() {
+    public AlbumController() {
     }
 
-    public Love getSelected() {
+    public Album getSelected() {
         if (current == null) {
-            current = new Love();
+            current = new Album();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private LoveFacade getFacade() {
+    private AlbumFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +68,13 @@ public class LoveController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Love) getItems().getRowData();
+        current = (Album) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Love();
+        current = new Album();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,8 +82,8 @@ public class LoveController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveCreated"));
-            return prepareCreate();
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
+            return "List";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -91,7 +91,7 @@ public class LoveController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Love) getItems().getRowData();
+        current = (Album) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +99,7 @@ public class LoveController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +108,7 @@ public class LoveController implements Serializable {
     }
 
     public String destroy() {
-        current = (Love) getItems().getRowData();
+        current = (Album) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +132,7 @@ public class LoveController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,16 +188,16 @@ public class LoveController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    @FacesConverter(forClass = Love.class)
-    public static class LoveControllerConverter implements Converter {
+    @FacesConverter(forClass = Album.class)
+    public static class AlbumControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            LoveController controller = (LoveController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "loveController");
+            AlbumController controller = (AlbumController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "albumController");
             return controller.ejbFacade.find(getKey(value));
         }
 
@@ -218,11 +218,11 @@ public class LoveController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Love) {
-                Love o = (Love) object;
-                return getStringKey(o.getIdLove());
+            if (object instanceof Album) {
+                Album o = (Album) object;
+                return getStringKey(o.getIdAlbum());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Love.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Album.class.getName());
             }
         }
 

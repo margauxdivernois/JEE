@@ -1,9 +1,9 @@
-package views;
+package controller;
 
 import entities.Permission;
 import views.util.JsfUtil;
 import views.util.PaginationHelper;
-import controllers.PermissionFacade;
+import facade.PermissionFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -25,7 +25,7 @@ public class PermissionController implements Serializable {
     private Permission current;
     private DataModel items = null;
     @EJB
-    private controllers.PermissionFacade ejbFacade;
+    private facade.PermissionFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 

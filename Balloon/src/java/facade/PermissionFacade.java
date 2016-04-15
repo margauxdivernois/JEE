@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package facade;
 
-import entities.Album;
+import entities.Permission;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Margaux
  */
 @Stateless
-public class AlbumFacade extends AbstractFacade<Album> {
+public class PermissionFacade extends AbstractFacade<Permission> {
     @PersistenceContext(unitName = "BalloonPU")
     private EntityManager em;
 
@@ -23,9 +23,9 @@ public class AlbumFacade extends AbstractFacade<Album> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    public AlbumFacade() {
-        super(Album.class);
+
+    public PermissionFacade() {
+        super(Permission.class);
     }
     
 }

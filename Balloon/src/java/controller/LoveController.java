@@ -1,9 +1,9 @@
-package views;
+package controller;
 
-import entities.Image;
+import entities.Love;
 import views.util.JsfUtil;
 import views.util.PaginationHelper;
-import controllers.ImageFacade;
+import facade.LoveFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "imageController")
+@ManagedBean(name = "loveController")
 @SessionScoped
-public class ImageController implements Serializable {
+public class LoveController implements Serializable {
 
-    private Image current;
+    private Love current;
     private DataModel items = null;
     @EJB
-    private controllers.ImageFacade ejbFacade;
+    private facade.LoveFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public ImageController() {
+    public LoveController() {
     }
 
-    public Image getSelected() {
+    public Love getSelected() {
         if (current == null) {
-            current = new Image();
+            current = new Love();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private ImageFacade getFacade() {
+    private LoveFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +68,13 @@ public class ImageController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Image) getItems().getRowData();
+        current = (Love) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Image();
+        current = new Love();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +82,7 @@ public class ImageController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +91,7 @@ public class ImageController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Image) getItems().getRowData();
+        current = (Love) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +99,7 @@ public class ImageController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +108,7 @@ public class ImageController implements Serializable {
     }
 
     public String destroy() {
-        current = (Image) getItems().getRowData();
+        current = (Love) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +132,7 @@ public class ImageController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("LoveDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,16 +188,16 @@ public class ImageController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    @FacesConverter(forClass = Image.class)
-    public static class ImageControllerConverter implements Converter {
+    @FacesConverter(forClass = Love.class)
+    public static class LoveControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ImageController controller = (ImageController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "imageController");
+            LoveController controller = (LoveController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "loveController");
             return controller.ejbFacade.find(getKey(value));
         }
 
@@ -218,11 +218,11 @@ public class ImageController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Image) {
-                Image o = (Image) object;
-                return getStringKey(o.getIdImage());
+            if (object instanceof Love) {
+                Love o = (Love) object;
+                return getStringKey(o.getIdLove());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Image.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Love.class.getName());
             }
         }
 
