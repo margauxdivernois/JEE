@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package facade;
 
+import entities.Album;
 import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import javax.persistence.criteria.Order;
  * @author Margaux
  */
 @Stateless
-public class ImageFacade extends AbstractFacade<Image> {
+public class AlbumFacade extends AbstractFacade<Album> {
     @PersistenceContext(unitName = "BalloonPU")
     private EntityManager em;
 
@@ -24,9 +25,11 @@ public class ImageFacade extends AbstractFacade<Image> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
-    public ImageFacade() {
-        super(Image.class);
+    
+    public AlbumFacade() {
+        super(Album.class);
+        
+       
     }
     
 }

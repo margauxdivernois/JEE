@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package facade;
 
-import entities.User;
+import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Order;
 
 /**
  *
  * @author Margaux
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User> {
+public class ImageFacade extends AbstractFacade<Image> {
     @PersistenceContext(unitName = "BalloonPU")
     private EntityManager em;
 
@@ -24,8 +25,8 @@ public class UserFacade extends AbstractFacade<User> {
         return em;
     }
 
-    public UserFacade() {
-        super(User.class);
+    public ImageFacade() {
+        super(Image.class);
     }
     
 }

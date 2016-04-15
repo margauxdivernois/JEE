@@ -1,13 +1,14 @@
-package views;
+package controller;
 
-import entities.Album;
+import entities.User;
 import views.util.JsfUtil;
 import views.util.PaginationHelper;
-import controllers.AlbumFacade;
+import facade.UserFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -17,30 +18,32 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
-@ManagedBean(name = "albumController")
+@ManagedBean(name = "userController")
 @SessionScoped
-public class AlbumController implements Serializable {
+public class UserController implements Serializable {
 
-    private Album current;
+    private User current;
     private DataModel items = null;
     @EJB
-    private controllers.AlbumFacade ejbFacade;
+    private facade.UserFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public AlbumController() {
+    public UserController() {
     }
 
-    public Album getSelected() {
+    public User getSelected() {
         if (current == null) {
-            current = new Album();
+            current = new User();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private AlbumFacade getFacade() {
+    private UserFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +71,13 @@ public class AlbumController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Album) getItems().getRowData();
+        current = (User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Album();
+        current = new User();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +85,7 @@ public class AlbumController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
             return "List";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +94,7 @@ public class AlbumController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Album) getItems().getRowData();
+        current = (User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +102,7 @@ public class AlbumController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +111,7 @@ public class AlbumController implements Serializable {
     }
 
     public String destroy() {
-        current = (Album) getItems().getRowData();
+        current = (User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +135,7 @@ public class AlbumController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,16 +191,16 @@ public class AlbumController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    @FacesConverter(forClass = Album.class)
-    public static class AlbumControllerConverter implements Converter {
+    @FacesConverter(forClass = User.class)
+    public static class UserControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            AlbumController controller = (AlbumController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "albumController");
+            UserController controller = (UserController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "userController");
             return controller.ejbFacade.find(getKey(value));
         }
 
@@ -218,14 +221,13 @@ public class AlbumController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Album) {
-                Album o = (Album) object;
-                return getStringKey(o.getIdAlbum());
+            if (object instanceof User) {
+                User o = (User) object;
+                return getStringKey(o.getIdUser());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Album.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + User.class.getName());
             }
         }
 
     }
-
 }

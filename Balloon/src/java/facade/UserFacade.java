@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package facade;
 
-import entities.Love;
+import entities.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Margaux
  */
 @Stateless
-public class LoveFacade extends AbstractFacade<Love> {
+public class UserFacade extends AbstractFacade<User> {
     @PersistenceContext(unitName = "BalloonPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class LoveFacade extends AbstractFacade<Love> {
         return em;
     }
 
-    public LoveFacade() {
-        super(Love.class);
+    public UserFacade() {
+        super(User.class);
     }
     
 }
