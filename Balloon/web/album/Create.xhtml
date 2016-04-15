@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateAlbumTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
+            </h:panelGroup>
+            
+            <h:form class="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateAlbumLabel_AName}" for="AName" />
+                    <div class="col-sm-10">
+                        <h:inputText id="AName" value="#{albumController.selected.AName}" class="form-control" title="#{bundle.CreateAlbumTitle_AName}" required="true" requiredMessage="#{bundle.CreateAlbumRequiredMessage_AName}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateAlbumLabel_ADescription}" for="ADescription" />
+                    <div class="col-sm-10">
+                        <h:inputTextarea rows="4" cols="30" id="ADescription" class="form-control" value="#{albumController.selected.ADescription}" title="#{bundle.CreateAlbumTitle_ADescription}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateAlbumLabel_apublicVisibility}" for="apublicVisibility" />
+                    <div class="col-sm-10">
+                        <h:selectOneRadio required="true" layout="pageDirection" enabledClass="margin-side" requiredMessage="#{bundle.CreateAlbumRequiredMessage_apublicVisibility}" value="#{albumController.selected.apublicVisibility}">
+                            <f:selectItem itemValue="true" itemLabel="#{bundle.CreateAlbumVisibilityPrivate}" />
+                            <f:selectItem itemValue="false" itemLabel="#{bundle.CreateAlbumVisibilityPublic}" />
+                        </h:selectOneRadio>	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <h:commandButton class="btn btn-primary" action="#{albumController.create}" value="#{bundle.CreateAlbumSaveLink}" />
+                        <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.CreateAlbumCancelLink}"/>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUserTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
+            </h:panelGroup>
+            
+            <h:form class="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UUsername}" for="UUsername" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UUsername" value="#{userController.selected.UUsername}" title="#{bundle.CreateUserTitle_UUsername}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UUsername}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UEmail}" for="UEmail"/>
+                    <div class="col-sm-10">
+                        <h:inputText id="UEmail" value="#{userController.selected.UEmail}" title="#{bundle.CreateUserTitle_UEmail}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UEmail}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UPassword}" for="UPassword" />
+                    <div class="col-sm-10">
+                        <h:inputSecret id="UPassword" value="#{userController.selected.UPassword}" title="#{bundle.CreateUserTitle_UPassword}" required="true" requiredMessage="#{bundle.CreateUserRequiredMessage_UPassword}"/>	
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateUserLabel_UIcon}" for="UIcon" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UIcon" value="#{userController.selected.UIcon}" title="#{bundle.CreateUserTitle_UIcon}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <h:commandButton class="btn btn-primary" action="#{userController.create}" value="#{bundle.CreateUserSaveLink}" />
+                        <h:link outcome="/login" class="btn btn-default margin-side" value="#{bundle.CreateUserLoginLink}" />
+                        <h:link outcome="/index" class="btn btn-default" value="#{bundle.CreateUserCancelLink}"/>
+                    </div>
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
