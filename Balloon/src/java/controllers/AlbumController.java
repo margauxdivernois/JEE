@@ -3,6 +3,7 @@ package controllers;
 import entities.Album;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
+import entities.Image;
 import facades.AlbumFacade;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class AlbumController implements Serializable {
 
-    private Album current;
+    public Album current;
     private DataModel items = null;
     @EJB
     private facades.AlbumFacade ejbFacade;
@@ -32,6 +33,12 @@ public class AlbumController implements Serializable {
     public AlbumController() {
     }
 
+    public String destroyImage(Image image) {
+        
+        
+        return prepareView();
+    }
+    
     public Album getSelected() {
         if (current == null) {
             current = new Album();
