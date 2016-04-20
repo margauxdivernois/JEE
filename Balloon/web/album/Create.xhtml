@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateAlbumLabel_apublicVisibility}" for="apublicVisibility" />
                     <div class="col-sm-10">
-                        <h:selectOneRadio required="true" layout="pageDirection" enabledClass="margin-side" requiredMessage="#{bundle.CreateAlbumRequiredMessage_apublicVisibility}" value="#{albumController.selected.apublicVisibility}">
+                        <h:selectOneRadio required="true" id="apublicVisibility" layout="pageDirection" enabledClass="margin-side" requiredMessage="#{bundle.CreateAlbumRequiredMessage_apublicVisibility}" value="#{albumController.selected.apublicVisibility}">
                             <f:selectItem itemValue="true" itemLabel="#{bundle.CreateAlbumVisibilityPrivate}" />
                             <f:selectItem itemValue="false" itemLabel="#{bundle.CreateAlbumVisibilityPublic}" />
                         </h:selectOneRadio>	
@@ -43,6 +43,11 @@
                         <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.CreateAlbumCancelLink}"/>
                     </div>
                 </div>
+                
+                <h:outputLabel value="#{bundle.CreateAlbumLabel_fkUser}" for="fkUser" />
+                    <h:selectOneMenu id="fkUser" value="#{albumController.selected.fkUser}" title="#{bundle.CreateAlbumTitle_fkUser}" required="true" requiredMessage="#{bundle.CreateAlbumRequiredMessage_fkUser}">
+                        <f:selectItems value="#{userController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
             </h:form>
         </ui:define>
     </ui:composition>

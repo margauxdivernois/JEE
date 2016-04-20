@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author stevevisinand
+ * @author Margaux
  */
 @Stateless
 public class AlbumFacade extends AbstractFacade<Album> {
@@ -27,5 +27,5 @@ public class AlbumFacade extends AbstractFacade<Album> {
     public AlbumFacade() {
         super(Album.class);
     }
-    
+
 }

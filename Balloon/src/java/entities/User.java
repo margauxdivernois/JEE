@@ -6,7 +6,16 @@
 package entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByUPassword", query = "SELECT u FROM User u WHERE u.uPassword = :uPassword"),
     @NamedQuery(name = "User.findByUIcon", query = "SELECT u FROM User u WHERE u.uIcon = :uIcon")})
 public class User implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUser")
+    private Collection<Album> albumCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,8 +75,6 @@ public class User implements Serializable {
     private String uIcon;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUser")
     private Collection<Love> loveCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUser")
-    private Collection<UserAlbum> userAlbumCollection;
 
     public User() {
     }
@@ -78,7 +87,7 @@ public class User implements Serializable {
         this.idUser = idUser;
         this.uUsername = uUsername;
         this.uEmail = uEmail;
-        this.uPassword = uPassword;
+        this.uPassword = hashPassword(uPassword);
     }
 
     public Integer getIdUser() {
@@ -110,7 +119,7 @@ public class User implements Serializable {
     }
 
     public void setUPassword(String uPassword) {
-        this.uPassword = uPassword;
+        this.uPassword = hashPassword(uPassword);
     }
 
     public String getUIcon() {
@@ -129,16 +138,7 @@ public class User implements Serializable {
     public void setLoveCollection(Collection<Love> loveCollection) {
         this.loveCollection = loveCollection;
     }
-
-    @XmlTransient
-    public Collection<UserAlbum> getUserAlbumCollection() {
-        return userAlbumCollection;
-    }
-
-    public void setUserAlbumCollection(Collection<UserAlbum> userAlbumCollection) {
-        this.userAlbumCollection = userAlbumCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -164,4 +164,35 @@ public class User implements Serializable {
         return "entities.User[ idUser=" + idUser + " ]";
     }
     
+    private String hashPassword(String password) {
+
+        String md5 = null;
+        if(null == password) return null;
+         
+        try 
+        {   
+            //Create MessageDigest object for MD5
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+
+            //Update input string in message digest
+            digest.update(password.getBytes(), 0, password.length());       
+
+            //Converts message digest value in base 16 (hex)
+            md5 = String.format("%032x", new BigInteger(1, digest.digest()));
+        } 
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return md5;
+    }
+
+    @XmlTransient
+    public Collection<Album> getAlbumCollection() {
+        return albumCollection;
+    }
+
+    public void setAlbumCollection(Collection<Album> albumCollection) {
+        this.albumCollection = albumCollection;
+    }
 }
