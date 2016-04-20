@@ -14,25 +14,40 @@
     </h:head>
 
     <h:body>
-        <div class="container-fluid"> 
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <ul class="nav navbar-nav">
-                        <ui:fragment rendered="#{empty request.remoteUser}">
-                            <li class="active"><h:link outcome="/login" value="Sign in"/></li>
-                            <li class="active"><h:link outcome="/register" value="Register"/></li>
-                        </ui:fragment>
-                        <ui:fragment rendered="#{not empty request.remoteUser}">
-                            <h:form>
-                                <li class="active"><h:commandLink action="#{request.logout()}" value="Logout"  /></li>
-                            </h:form>
+        
+        <nav class="navbar navbar-inverse ">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Baloon</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <div class="navbar-form navbar-right">
+                
+                <ul class="nav navbar-nav">
+                      <ui:fragment rendered="#{empty request.remoteUser}">
+                          <h:link outcome="/login" value="Sign in" class="btn btn-success" />
+                          <h:link outcome="/register" value="Register" class="btn btn-primary margin-side"/>
+                      </ui:fragment>
+                      <ui:fragment rendered="#{not empty request.remoteUser}">
+                          <h:form>
+                              <h:commandLink action="#{request.logout()}" value="Logout" class="btn btn-danger"  />
+                          </h:form>
 
-                        </ui:fragment>
-                        
-                        
-                    </ul>
-                </div>
-            </nav>
+                      </ui:fragment>
+                </ul>
+                
+              
+            </div>
+              
+            
+          </div><!--/.navbar-collapse -->
+        </div>
+      </nav>
+        
+        <div class="container">
+            
+            
+            
             
             <div class="row">
                 <div class="col-md-12">

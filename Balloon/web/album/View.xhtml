@@ -3,16 +3,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ViewAlbumTitle} - #{albumController.selected.AName}"></h:outputText>
+            <h:outputText value="#{bundle.ViewAlbumTitle}"></h:outputText>
         </ui:define>
         <ui:define name="action">
             <h:form>
-                <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
-                <h:commandButton class="btn btn-default margin-side" action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
                 <h:commandButton class="btn btn-default"  action="#{albumController.prepareList}" value="#{bundle.ViewAlbumShowAllLink}"/>
             </h:form>
         </ui:define>
@@ -24,31 +23,124 @@
 
             <h:form>
                 <div class="panel panel-default">
+                    
                     <div class="panel-body">
-                        <div class='col-md-6'>
-                            <img src="../resources/image/noPicture.jpg" width="500" height="332" alt="noPicture"/>
-                        </div>
-                        <div class='col-md-6'>
-                            <p>
-                                <h:outputLabel value="#{bundle.ViewAlbumLabel_ADescription}" for="apublicVisibility" /> 
-                                <h:outputText value="#{albumController.selected.ADescription}" title="#{bundle.ViewAlbumTitle_ADescription}"/>
-                            </p>
+                        <h2>#{albumController.selected.AName}</h2>
+                        
+                        <div class="row">
+                            <div class='col-md-2'>
+                                <a href="../resources/image/noPicture.jpg" class="thumbnail">
+                                    <img src="../resources/image/noPicture.jpg"   alt="noPicture"/>
+                                </a>
+                            </div>
+                            <div class='col-md-10'>
 
-                            <p>
-                                <h:outputLabel value="#{bundle.ViewAlbumLabel_apublicVisibility}" for="apublicVisibility" /> 
-                                <h:outputText value="#{bundle.ViewAlbumVisibilityPrivate}" rendered="#{albumController.selected.apublicVisibility}" />
-                                <h:outputText value="#{bundle.ViewAlbumVisibilityPublic}" rendered="#{!albumController.selected.apublicVisibility}" />
-                            </p>
 
-                            <p>
-                                <h:outputLabel value="#{bundle.ViewAlbumLabel_acreationDate}" for="apublicVisibility" /> 
-                                <h:outputText value="#{albumController.selected.acreationDate}" title="#{bundle.ViewAlbumTitle_acreationDate}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                                </h:outputText>
-                            </p>
+                                <table class="table">
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="#{bundle.ViewAlbumLabel_ADescription}" for="apublicVisibility" /> 
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{albumController.selected.ADescription}" title="#{bundle.ViewAlbumTitle_ADescription}"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="#{bundle.ViewAlbumLabel_apublicVisibility}" for="apublicVisibility" /> 
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{bundle.ViewAlbumVisibilityPrivate}" rendered="#{albumController.selected.apublicVisibility}" />
+                                            <h:outputText value="#{bundle.ViewAlbumVisibilityPublic}" rendered="#{!albumController.selected.apublicVisibility}" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="#{bundle.ViewAlbumLabel_acreationDate}" for="apublicVisibility" /> 
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{albumController.selected.acreationDate}" title="#{bundle.ViewAlbumTitle_acreationDate}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                <h:form>
+                                    <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
+                                    <h:commandButton class="btn btn-danger margin-side" action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
+                                </h:form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
+                <h2>Images !</h2>
+                
+                <c:if test="#{albumController.selected.imageCollection.size() == 0}">
+                    <p><b>Non t'en a pas dsl...</b></p>
+                </c:if>
+                
+                <div class="row">
+                    
+                    <ui:repeat value="#{albumController.selected.imageCollection}" var="image">
+                    
+                    <div class="col-sm-4 col-md-3">
+                      <div class="thumbnail">
+                        <img src="../resources/image/noPicture.jpg" alt="asda" />
+                        <div class="caption">
+                            
+                        <h3><h:outputText value="#{image.IName}"/></h3>
+                       
+                        <p><h:outputText value="#{image.IDescription}"/></p>
+                        
+                        <table class="table">
+                            
+                            <tr>
+                                <td><b>#{bundle.ViewImageTitle_ICamera}</b></td>
+                                <td><h:outputText value="#{image.ICamera}"/></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><b>#{bundle.ViewImageTitle_ICopyright}</b></td>
+                                <td><h:outputText value="#{image.ICopyright}"/></td>
+                            </tr>
+                            <tr>
+                                <td><b>#{bundle.ViewImageTitle_idateCapture}</b></td>
+                                <td>
+                                    <h:outputText value="#{image.idateCapture}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                                
+                        <!-- Nice Try !! but nop.... -->
+                        <p>
+                        <h:form>
+                            <h:commandButton class="btn btn-danger" action="#{albumController.destroyImage(image)}" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
+                        </h:form>
+                        </p>
+  
+                        </div>
+                      </div>
+                    </div>
+                        
+                    </ui:repeat>
+                </div>
+                
+                
+                
+                                
+                    
+                                
+                
+                
+                
             </h:form>
         </ui:define>
     </ui:composition>

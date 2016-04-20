@@ -117,6 +117,13 @@ public class ImageController implements Serializable {
         recreateModel();
         return "List";
     }
+    
+    public String destroy(Image image){
+        performDestroy();
+        recreatePagination();
+        recreateModel();
+        return "List";
+    }
 
     public String destroyAndView() {
         performDestroy();

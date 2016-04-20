@@ -3,8 +3,7 @@ package controllers;
 import entities.Album;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import entities.User;
-import facades.AlbumFacade;
+import entities.Image;import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -23,7 +22,8 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class AlbumController implements Serializable {
 
-    private Album current;
+
+    public Album current;
     private DataModel items = null;
     @EJB
     private facades.AlbumFacade ejbFacade;
@@ -33,6 +33,12 @@ public class AlbumController implements Serializable {
     public AlbumController() {
     }
 
+    public String destroyImage(Image image) {
+        
+        
+        return prepareView();
+    }
+    
     public Album getSelected() {
         if (current == null) {
             current = new Album();
@@ -83,15 +89,15 @@ public class AlbumController implements Serializable {
     public String create() {
         try {
             
-            UserController userController = new UserController();
-            User user = userController.getUserFromUsername("Himi");
+            //UserController userController = new UserController();
+            //User user = userController.getUserFromUsername("Himi");
             //current.setFkUser(new User());
 
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
             return prepareCreate();
         } catch (Exception e) {
-            //JsfUtil.addErrorMessage(e,ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
