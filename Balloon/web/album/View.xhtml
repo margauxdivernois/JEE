@@ -5,6 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
@@ -35,9 +37,7 @@
                             </div>
                             <div class='col-md-10'>
 
-
                                 <table class="table">
-
                                     <tr>
                                         <td>
                                             <h:outputLabel value="#{bundle.ViewAlbumLabel_ADescription}" for="apublicVisibility" /> 
@@ -72,15 +72,23 @@
                                 <h:form>
                                     <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
                                     <h:commandButton class="btn btn-danger margin-side" action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
-                                
-                                    
+               
                                 </h:form>
+                                
+         
                             </div>
                         </div>
                     </div>
                 </div>
                 
+                <h:commandButton action="#{imageController.addImageFromAlbum}" class="btn btn-success btn-block" value="#{bundle.ListImageCreateLink}">
+                    <f:param name="idAlbum" value="#{albumController.selected.idAlbum}" />
+                </h:commandButton>
+                
+                <br/><br/>
                 <h2>Images !</h2>
+                
+                
                 
                 <c:if test="#{albumController.selected.imageCollection.size() == 0}">
                     <p><b>Non t'en a pas dsl...</b></p>
@@ -121,12 +129,15 @@
                             
                         </table>
                                 
-                        <!-- Nice Try !! but nop.... -->
+                        <!-- Nice Try !! :) -->
                         <p>
-                        <h:form>
-                            <h:commandButton class="btn btn-danger" action="#{albumController.destroyImage(image)}" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
-                        
-                        </h:form>
+                            <h:commandButton action="#{imageController.editImageFromAlbum}" class="btn btn-primary" value="#{bundle.ListImageEditLink}">
+                                <f:param name="idImage" value="#{image.idImage}" />
+                            </h:commandButton>
+                            
+                            <h:commandButton action="#{albumController.destroyImage}" class="btn btn-danger margin-side" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')">
+                                <f:param name="idImage" value="#{image.idImage}" />
+                            </h:commandButton>
                         </p>
   
                         </div>
@@ -134,18 +145,15 @@
                     </div>
                         
                     </ui:repeat>
+                    
                 </div>
                 
-                
-                
-                                
-                    
-                                
-                
-                
-                
             </h:form>
+            
         </ui:define>
     </ui:composition>
 
+    
+    
+   
 </html>

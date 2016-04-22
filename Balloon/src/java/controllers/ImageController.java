@@ -8,7 +8,6 @@ import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import entities.Love;
-import entities.User;
 import facades.ImageFacade;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,8 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.io.Serializable;
-import java.net.URL;
-import java.util.Date;
+import java.util.Map;import java.net.URL;import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -33,7 +31,7 @@ import javax.faces.model.SelectItem;
 @ManagedBean(name = "imageController")
 @SessionScoped
 public class ImageController implements Serializable {
-
+       
     private Image current;
     private DataModel items = null;
     @EJB
@@ -42,6 +40,28 @@ public class ImageController implements Serializable {
     private int selectedItemIndex;
 
     public ImageController() {
+    }
+    
+    public void editImageFromAlbum(){
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Edit.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idImg = Integer.parseInt(params.get("idImage"));
+        current = getFacade().getImage(idImg);
+    }
+    
+    public void addImageFromAlbum(){
+        
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int fkAlbum = Integer.parseInt(params.get("idAlbum"));
+        
+        current = new Image();
+        selectedItemIndex = -1;
+        current.setFkAlbum(getFacade().getAlbum(fkAlbum));
     }
 
     public Image getSelected() {
@@ -93,6 +113,7 @@ public class ImageController implements Serializable {
 
     public String create() {
         try {
+
             readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));

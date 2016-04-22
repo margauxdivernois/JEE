@@ -25,26 +25,17 @@ public class AlbumFacade extends AbstractFacade<Album> {
         return em;
     }
 
-    public void removeImage(Image image, Album album)
-    {
-        System.out.print("adasdadsasd");
-        
+    public void removeImage(int imageID, Album album)
+    {        
         EntityManager entitymanager = getEntityManager();
-        entitymanager.getTransaction( ).begin( );
 
-            
+        Image image = entitymanager.find(Image.class, imageID);
+
         album.removeImageAlbum(image);
-        image.setFkAlbum(null);
-      
-        entitymanager.persist( album );
-        entitymanager.persist( image );
-        entitymanager.getTransaction( ).commit( );
+        entitymanager.persist(album);
 
-        System.out.print("ASDASDASDAALDJKalkdjhaSDLKjahsdlkaJSDHlaksjdhlakSDJH");
-        getEntityManager().remove(getEntityManager().merge(image));
-
+        entitymanager.remove(image);
     }
-    
     
     public AlbumFacade() {
         super(Album.class);
