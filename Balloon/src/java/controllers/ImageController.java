@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.util.ImagesTools;
 import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
@@ -81,6 +82,7 @@ public class ImageController implements Serializable {
 
     public String create() {
         try {
+            ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();

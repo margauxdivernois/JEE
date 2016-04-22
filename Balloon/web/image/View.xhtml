@@ -7,55 +7,60 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ViewImageTitle}"></h:outputText>
+            <h:outputText value="#{imageController.selected.IName}"></h:outputText>
         </ui:define>
+        
+        <ui:define name="action">
+            <h:form>
+                <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewImageEditLink}"/>
+                <h:commandButton class="btn btn-default margin-side" action="#{imageController.destroyAndView}" value="#{bundle.ViewImageDestroyLink}" onclick="return confirm('L\'image sera intégralement supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
+                <h:commandButton class="btn btn-default"  action="#{imageController.prepareList}" value="#{bundle.ViewImageShowAllLink}"/>
+            </h:form>
+        </ui:define>
+        
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewImageLabel_idImage}"/>
-                    <h:outputText value="#{imageController.selected.idImage}" title="#{bundle.ViewImageTitle_idImage}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_IName}"/>
-                    <h:outputText value="#{imageController.selected.IName}" title="#{bundle.ViewImageTitle_IName}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_IFilename}"/>
-                    <h:outputText value="#{imageController.selected.IFilename}" title="#{bundle.ViewImageTitle_IFilename}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_IDescription}"/>
-                    <h:outputText value="#{imageController.selected.IDescription}" title="#{bundle.ViewImageTitle_IDescription}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_idateCapture}"/>
-                    <h:outputText value="#{imageController.selected.idateCapture}" title="#{bundle.ViewImageTitle_idateCapture}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:outputText>
-                    <h:outputText value="#{bundle.ViewImageLabel_idateUpload}"/>
-                    <h:outputText value="#{imageController.selected.idateUpload}" title="#{bundle.ViewImageTitle_idateUpload}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:outputText>
-                    <h:outputText value="#{bundle.ViewImageLabel_ICopyright}"/>
-                    <h:outputText value="#{imageController.selected.ICopyright}" title="#{bundle.ViewImageTitle_ICopyright}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_ILatititude}"/>
-                    <h:outputText value="#{imageController.selected.ILatititude}" title="#{bundle.ViewImageTitle_ILatititude}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_ILongitude}"/>
-                    <h:outputText value="#{imageController.selected.ILongitude}" title="#{bundle.ViewImageTitle_ILongitude}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_ICamera}"/>
-                    <h:outputText value="#{imageController.selected.ICamera}" title="#{bundle.ViewImageTitle_ICamera}"/>
-                    <h:outputText value="#{bundle.ViewImageLabel_fkAlbum}"/>
-                    <h:outputText value="#{imageController.selected.fkAlbum}" title="#{bundle.ViewImageTitle_fkAlbum}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{imageController.destroyAndView}" value="#{bundle.ViewImageDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewImageEditLink}"/>
-                <br />
-                <h:commandLink action="#{imageController.prepareCreate}" value="#{bundle.ViewImageCreateLink}" />
-                <br />
-                <h:commandLink action="#{imageController.prepareList}" value="#{bundle.ViewImageShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewImageIndexLink}"/>
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class='col-md-6'>
+                        <img src="../resources/image/#{imageController.selected.IFilename}" width="500" height="332" alt="#{imageController.selected.IName}"/>
+                    </div>
+                    <div class='col-md-6'>
+                        <p>
+                            <h:outputLabel value="#{bundle.ViewImageLabel_IDescription} "/> 
+                            <h:outputText value="#{imageController.selected.IDescription}" title="#{bundle.ViewImageTitle_IDescription}"/>
+                        </p>
+                        
+                        <p>
+                            <h:outputLabel value="#{bundle.ViewImageLabel_idateCapture} "/> 
+                            <h:outputText value="#{imageController.selected.idateCapture}" title="#{bundle.ViewImageTitle_idateCapture}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p>
+                        
+                        <p>
+                            <h:outputLabel value="#{bundle.ViewImageLabel_idateUpload} "/>
+                            <h:outputText value="#{imageController.selected.idateUpload}" title="#{bundle.ViewImageTitle_idateUpload}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p>
+                        
+                        <p>
+                            <h:outputLabel value="#{bundle.ViewImageLabel_ICopyright} "/>
+                            <h:outputText value="#{imageController.selected.ICopyright}" title="#{bundle.ViewImageTitle_ICopyright}"/>
+                        </p>
+                        
+                        <p>
+                            <h:outputLabel value="#{bundle.ViewImageLabel_ICamera} "/>
+                            <h:outputText value="#{imageController.selected.ICamera}" title="#{bundle.ViewImageTitle_ICamera}"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-            </h:form>
         </ui:define>
     </ui:composition>
 

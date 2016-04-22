@@ -53,48 +53,50 @@ public class Image implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_image")
     private Integer idImage;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 250)
     @Column(name = "i_name")
     private String iName;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 250)
     @Column(name = "i_filename")
     private String iFilename;
+    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "i_description")
     private String iDescription;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)
     @Column(name = "i_dateCapture")
     @Temporal(TemporalType.TIMESTAMP)
     private Date idateCapture;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)
     @Column(name = "i_dateUpload")
     @Temporal(TemporalType.TIMESTAMP)
     private Date idateUpload;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    
+    @Basic(optional = true)
+    @Size(min = 0, max = 65535)
     @Column(name = "i_copyright")
     private String iCopyright;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)
     @Column(name = "i_latititude")
     private double iLatititude;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)
     @Column(name = "i_longitude")
     private double iLongitude;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)
     @Size(min = 1, max = 350)
     @Column(name = "i_camera")
     private String iCamera;
@@ -105,6 +107,7 @@ public class Image implements Serializable {
     private Album fkAlbum;
 
     public Image() {
+        this.idateUpload = new Date();
     }
 
     public Image(Integer idImage) {

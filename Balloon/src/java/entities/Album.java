@@ -5,9 +5,11 @@
  */
 package entities;
 
+import controllers.UserController;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +17,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Album.findByApublicVisibility", query = "SELECT a FROM Album a WHERE a.apublicVisibility = :apublicVisibility"),
     @NamedQuery(name = "Album.findByAcreationDate", query = "SELECT a FROM Album a WHERE a.acreationDate = :acreationDate")})
 public class Album implements Serializable {
+    @JoinColumn(name = "fk_user", referencedColumnName = "id_user")
+    @ManyToOne(optional = false)
+    private User fkUser;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,8 +72,6 @@ public class Album implements Serializable {
     private Date acreationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAlbum")
     private Collection<Image> imageCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAlbum")
-    private Collection<UserAlbum> userAlbumCollection;
 
     public Album() {
         this.acreationDate = new Date();
@@ -134,16 +139,7 @@ public class Album implements Serializable {
     public void setImageCollection(Collection<Image> imageCollection) {
         this.imageCollection = imageCollection;
     }
-
-    @XmlTransient
-    public Collection<UserAlbum> getUserAlbumCollection() {
-        return userAlbumCollection;
-    }
-
-    public void setUserAlbumCollection(Collection<UserAlbum> userAlbumCollection) {
-        this.userAlbumCollection = userAlbumCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -167,6 +163,14 @@ public class Album implements Serializable {
     @Override
     public String toString() {
         return "entities.Album[ idAlbum=" + idAlbum + " ]";
+    }
+
+    public User getFkUser() {
+        return fkUser;
+    }
+
+    public void setFkUser(User fkUser) {
+        this.fkUser = fkUser;
     }
     
 }

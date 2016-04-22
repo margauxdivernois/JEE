@@ -227,5 +227,10 @@ public class UserController implements Serializable {
         }
 
     }
+    
+    public User getUserFromUsername(String username)
+    {
+        return ejbFacade.getUserFromUsername(username);
+    }
 
 }

@@ -3,8 +3,7 @@ package controllers;
 import entities.Album;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import entities.Image;
-import facades.AlbumFacade;
+import entities.Image;import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -22,6 +21,7 @@ import javax.faces.model.SelectItem;
 @ManagedBean(name = "albumController")
 @SessionScoped
 public class AlbumController implements Serializable {
+
 
     public Album current;
     private DataModel items = null;
@@ -94,6 +94,11 @@ public class AlbumController implements Serializable {
 
     public String create() {
         try {
+            
+            //UserController userController = new UserController();
+            //User user = userController.getUserFromUsername("Himi");
+            //current.setFkUser(new User());
+
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
             return prepareCreate();

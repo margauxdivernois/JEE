@@ -5,14 +5,16 @@
  */
 package facades;
 
+import controllers.util.JsfUtil;
 import entities.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author stevevisinand
+ * @author Margaux
  */
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
@@ -26,6 +28,24 @@ public class UserFacade extends AbstractFacade<User> {
 
     public UserFacade() {
         super(User.class);
+    }
+    
+    public User getUserFromUsername(String username)
+    {
+        return new User();
+
+        /*try {
+           List results = em.createNamedQuery("User.findByUUsername")
+        .setParameter("uUsername", username)
+        .getResultList();
+            
+            return new User(); //(User) results.get(0);
+        }
+        catch(Exception e)
+        {
+            JsfUtil.addErrorMessage(e,"KO");
+        }
+        return null;*/
     }
     
 }
