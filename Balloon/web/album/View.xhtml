@@ -72,6 +72,8 @@
                                 <h:form>
                                     <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
                                     <h:commandButton class="btn btn-danger margin-side" action="#{albumController.destroyAndView}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
+                                
+                                    
                                 </h:form>
                             </div>
                         </div>
@@ -123,6 +125,7 @@
                         <p>
                         <h:form>
                             <h:commandButton class="btn btn-danger" action="#{albumController.destroyImage(image)}" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
+                        
                         </h:form>
                         </p>
   

@@ -30,11 +30,17 @@ public class AlbumController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    
     public AlbumController() {
     }
 
     public String destroyImage(Image image) {
         
+        current = (Album) getItems().getRowData();
+        //current.removeImageAlbum(image);
+        
+        getFacade().removeImage(image, current);
+        //getFacade().edit(current);
         
         return prepareView();
     }

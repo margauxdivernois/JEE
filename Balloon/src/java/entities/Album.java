@@ -82,6 +82,10 @@ public class Album implements Serializable {
         this.apublicVisibility = apublicVisibility;
     }
 
+    public boolean removeImageAlbum(Image image){
+        return userAlbumCollection.remove(image);
+    }
+    
     public Integer getIdAlbum() {
         return idAlbum;
     }
