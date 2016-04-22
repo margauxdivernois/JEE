@@ -88,7 +88,7 @@ public class Album implements Serializable {
     }
 
     public boolean removeImageAlbum(Image image){
-        return userAlbumCollection.remove(image);
+        return imageCollection.remove(image);
     }
     
     public Integer getIdAlbum() {
