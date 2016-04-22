@@ -5,6 +5,7 @@
  */
 package facades;
 
+import entities.Album;
 import entities.Image;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,6 +27,16 @@ public class ImageFacade extends AbstractFacade<Image> {
 
     public ImageFacade() {
         super(Image.class);
+    }
+    
+    public Image getImage(int imageID){
+        EntityManager entitymanager = getEntityManager();
+        return entitymanager.find(Image.class, imageID);
+    }
+    
+    public Album getAlbum(int albumID){
+        EntityManager entitymanager = getEntityManager();
+        return entitymanager.find(Album.class, albumID);
     }
     
 }

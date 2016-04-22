@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
 import controllers.util.ImagesTools;
 import entities.Image;
 import controllers.util.JsfUtil;
@@ -7,9 +8,11 @@ import controllers.util.PaginationHelper;
 import facades.ImageFacade;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -22,7 +25,7 @@ import javax.faces.model.SelectItem;
 @ManagedBean(name = "imageController")
 @SessionScoped
 public class ImageController implements Serializable {
-
+       
     private Image current;
     private DataModel items = null;
     @EJB
@@ -31,6 +34,28 @@ public class ImageController implements Serializable {
     private int selectedItemIndex;
 
     public ImageController() {
+    }
+    
+    public void editImageFromAlbum(){
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Edit.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idImg = Integer.parseInt(params.get("idImage"));
+        current = getFacade().getImage(idImg);
+    }
+    
+    public void addImageFromAlbum(){
+        
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int fkAlbum = Integer.parseInt(params.get("idAlbum"));
+        
+        current = new Image();
+        selectedItemIndex = -1;
+        current.setFkAlbum(getFacade().getAlbum(fkAlbum));
     }
 
     public Image getSelected() {

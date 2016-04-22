@@ -6,6 +6,7 @@ import controllers.util.PaginationHelper;
 import entities.Image;import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -34,15 +35,18 @@ public class AlbumController implements Serializable {
     public AlbumController() {
     }
 
-    public String destroyImage(Image image) {
+    public void destroyImage() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idImg = Integer.parseInt(params.get("idImage"));
         
-        current = (Album) getItems().getRowData();
-        //current.removeImageAlbum(image);
+        System.out.println("destroyImage : Called with parameter "+idImg);
         
-        getFacade().removeImage(image, current);
-        //getFacade().edit(current);
-        
-        return prepareView();
+        getFacade().removeImage(idImg, current);
+    }
+    
+    public void editImage() {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Edit.xhtml");
     }
     
     public Album getSelected() {
@@ -52,6 +56,7 @@ public class AlbumController implements Serializable {
         }
         return current;
     }
+
 
     private AlbumFacade getFacade() {
         return ejbFacade;
