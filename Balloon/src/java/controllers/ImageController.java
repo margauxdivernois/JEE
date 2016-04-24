@@ -1,7 +1,6 @@
 package controllers;
 
 import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
-import controllers.util.ImagesTools;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
@@ -174,12 +173,14 @@ public class ImageController implements Serializable {
             Files.copy(input, new File(context.getInitParameter("uploadDirectory"), current.getIName()+"_"+getFilename(file1)).toPath());
             
             //set fileName
+            //KEEP IT
             current.setIFilename(current.getIName()+"_"+getFilename(file1));
             
-            //Save
-            ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
-
+            // HELP
+            //ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
+            
+            //Save
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();
@@ -347,9 +348,9 @@ public class ImageController implements Serializable {
             
             System.out.println("MyAddress : "+pictureAddress);
 
-            String pictureLongName = pictureName;
-            pictureLongName += ".jpg";
-            image.setIFilename(pictureLongName);
+            //String pictureLongName = pictureName;
+            //pictureLongName += ".jpg";
+            //image.setIFilename(pictureLongName);
             
             URL url = new URL(urlString);
             OutputStream os;
