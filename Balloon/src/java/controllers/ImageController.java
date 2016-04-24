@@ -6,11 +6,17 @@ import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import facades.ImageFacade;
+import java.io.File;
+import java.io.InputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -21,10 +27,14 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 
 @ManagedBean(name = "imageController")
 @SessionScoped
 public class ImageController implements Serializable {
+    
        
     private Image current;
     private DataModel items = null;
@@ -32,9 +42,24 @@ public class ImageController implements Serializable {
     private facades.ImageFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    
+    private Part file1;
+
+    public Part getFile1() {
+        return file1;
+    }
+
+    public void setFile1(Part file1) {
+        this.file1 = file1;
+    }
+    
+  
 
     public ImageController() {
     }
+    
+    //public uploadFile(){
+    //}
     
     public void editImageFromAlbum(){
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Edit.xhtml");
@@ -65,7 +90,6 @@ public class ImageController implements Serializable {
         }
         return current;
     }
-
     private ImageFacade getFacade() {
         return ejbFacade;
     }
@@ -105,12 +129,50 @@ public class ImageController implements Serializable {
         return "Create";
     }
 
+    private static String getFilename(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String filename = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1).substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
+    
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+        List<FacesMessage> msgs = new ArrayList<FacesMessage>();
+        Part file = (Part)value;
+        //TODO ?
+        /**if (file.getSize() > 1024) {
+          msgs.add(new FacesMessage("mec... ici c'est pas iCloud, ton image est trop grande !"));
+        }**/
+        if (!("image/jpeg".equals(file.getContentType()) || "image/png".equals(file.getContentType()))) {
+          msgs.add(new FacesMessage("Une image stp... une image JPG ou PNG" ));
+        }
+        if (!msgs.isEmpty()) {
+          throw new ValidatorException(msgs);
+        }
+      }
+   
+    
     public String create() {
         try {
+            //upload file
+            InputStream input = file1.getInputStream();
+            
+            ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            Files.copy(input, new File(context.getInitParameter("uploadDirectory"), current.getIName()+"_"+getFilename(file1)).toPath());
+            
+            //set fileName
+            current.setIFilename(current.getIName()+"_"+getFilename(file1));
+            
+            //Save
             ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();
+        
+        
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
