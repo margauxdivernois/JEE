@@ -7,6 +7,8 @@ package facades;
 
 import entities.Album;
 import entities.Image;
+import entities.User;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,5 +42,15 @@ public class AlbumFacade extends AbstractFacade<Album> {
     public AlbumFacade() {
         super(Album.class);
     }
-
+    
+    public Album getAlbum(int albumID){
+        EntityManager entitymanager = getEntityManager();
+        return entitymanager.find(Album.class, albumID);
+    }
+    
+    public boolean isAlbumOwner(String username, Album album) {
+        
+        int currentUserId = getCurrentUser(username).getIdUser();
+        return album.getFkUser().getIdUser() == currentUserId;
+    }
 }

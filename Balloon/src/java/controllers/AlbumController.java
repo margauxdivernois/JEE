@@ -99,14 +99,12 @@ public class AlbumController implements Serializable {
 
     public String create() {
         try {
+            User currentUser = getFacade().getCurrentUser("Himi");
+            current.setFkUser(currentUser);
             
-            //UserController userController = new UserController();
-            //User user = userController.getUserFromUsername("Himi");
-            //current.setFkUser(new User());
-
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
-            return prepareCreate();
+            return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -159,6 +157,15 @@ public class AlbumController implements Serializable {
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
+    }
+    
+    public void returnAlbum() {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idAlbum = Integer.parseInt(params.get("idAlbum"));
+        current = getFacade().getAlbum(idAlbum);
     }
 
     private void updateCurrentItem() {
@@ -250,5 +257,10 @@ public class AlbumController implements Serializable {
         }
 
     }
-
+    
+    public boolean isAlbumOwner(Album album, String username)
+    {
+        System.out.println("IS ALBUM OWNER + CONTROLLER"+current);
+        return getFacade().isAlbumOwner(username, album);
+    }
 }

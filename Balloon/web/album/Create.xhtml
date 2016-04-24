@@ -43,11 +43,6 @@
                         <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.CreateAlbumCancelLink}"/>
                     </div>
                 </div>
-                
-                <h:outputLabel value="#{bundle.CreateAlbumLabel_fkUser}" for="fkUser" />
-                    <h:selectOneMenu id="fkUser" value="#{albumController.selected.fkUser}" title="#{bundle.CreateAlbumTitle_fkUser}" required="true" requiredMessage="#{bundle.CreateAlbumRequiredMessage_fkUser}">
-                        <f:selectItems value="#{userController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
             </h:form>
         </ui:define>
     </ui:composition>

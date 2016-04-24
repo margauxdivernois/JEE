@@ -48,6 +48,18 @@ public class ImageFacade extends AbstractFacade<Image> {
         entityManager.persist(love);
     }
     
+    public void unlove(Image image, String username) {
+        EntityManager entityManager = getEntityManager();
+        User currentUser = getCurrentUser(username);
+        Love love = (Love) entityManager.createNamedQuery("Love.findByUserAndImage")
+            .setParameter("fk_user", currentUser)
+            .setParameter("fk_image", image)
+            .getSingleResult();
+        entityManager.remove(love);
+        
+        image.removeLove(love);
+    }
+    
     public boolean canLove(String username, Image image) {
         EntityManager entityManager = getEntityManager();
         User currentUser = getCurrentUser(username);
@@ -58,5 +70,10 @@ public class ImageFacade extends AbstractFacade<Image> {
             .getResultList();
 
         return results.isEmpty();
+    }
+    
+    public boolean isImageOwner(String username, Image image) {
+        User currentUser = getCurrentUser(username);
+        return currentUser.getIdUser() == image.getFkAlbum().getFkUser().getIdUser();
     }
 }

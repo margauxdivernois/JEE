@@ -61,8 +61,6 @@ public class ImageController implements Serializable {
     public void setFile1(Part file1) {
         this.file1 = file1;
     }
-    
-  
 
     public ImageController() {
     }
@@ -79,6 +77,15 @@ public class ImageController implements Serializable {
         current = getFacade().getImage(idImg);
     }
     
+    public void showImageFromAlbum()
+    {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/View.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idImg = Integer.parseInt(params.get("idImage"));
+        current = getFacade().getImage(idImg);
+    }
     public void addImageFromAlbum(){
         
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
@@ -411,9 +418,19 @@ public class ImageController implements Serializable {
         getFacade().love(love, username);
     }
     
+    public void unlove(String username)
+    {
+        getFacade().unlove(current, username);
+    }
+    
     public boolean canLove(String username, Image image)
     {
         return getFacade().canLove(username, image);
+    }
+    
+    public boolean isImageOwner(String username)
+    {
+        return getFacade().isImageOwner(username, current);
     }
 
 }

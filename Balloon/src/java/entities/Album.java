@@ -9,6 +9,8 @@ import controllers.UserController;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import javax.faces.context.FacesContext;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -138,6 +140,23 @@ public class Album implements Serializable {
 
     public void setImageCollection(Collection<Image> imageCollection) {
         this.imageCollection = imageCollection;
+    }
+    
+    public Image getRandomImage()
+    {
+        int max = this.imageCollection.size() - 1;
+        if(max > 0)
+        {
+            Random r = new Random();
+            int indice = r.nextInt(max + 1);
+            return ((List<Image>)imageCollection).get(indice);
+        }
+        else
+        {
+            Image img = new Image();
+            img.setIFilename("noPicture.jpg");
+            return img;
+        }
     }
     
     @Override

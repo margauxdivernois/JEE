@@ -228,4 +228,9 @@ public class UserController implements Serializable {
         }
 
     }
+    
+    public int getUserID(String username)
+    {
+        return getFacade().getCurrentUser(username).getIdUser();
+    }
 }

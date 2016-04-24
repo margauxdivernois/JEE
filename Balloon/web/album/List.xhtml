@@ -41,9 +41,9 @@
                 <h:panelGroup rendered="#{albumController.items.rowCount > 0}">
                 
                     <ui:repeat value="#{albumController.items}" var="album">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="col-xs-6 col-sm-6 col-md-3">
                         <div class="thumbnail">
-                            <img src="../resources/image/noPicture.jpg" width="500" height="332" alt="noPicture"/>
+                            <img src="../resources/image/#{album.getRandomImage().IFilename}" class="img-responsive" width="500" height="332" alt="noPicture"/>
                             <div class="caption">
                                 <h3>
                                     <h:outputText value="#{album.AName}"/>
@@ -52,11 +52,17 @@
                                 </h3>
                                 <p><h:outputText value="#{album.ADescription}"/></p>
                                 <p style="font-style: italic;"><h:outputText value="Pas de description" rendered="#{empty album.ADescription}" /></p>
-                                <p>
-                                    <h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/>
-                                    <h:commandButton class="btn btn-default margin-side" action="#{albumController.prepareEdit}" value="#{bundle.ListAlbumEditLink}"/>
-                                    <h:commandButton class="btn btn-default" action="#{albumController.destroy}" value="#{bundle.ListAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
-                                </p>
+                                <h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/>
+                                <c:if test="#{not empty request.remoteUser}">
+                                    <ui:fragment rendered="#{album.fkUser.idUser == userController.getUserID(request.remoteUser)}">
+                                        <h:commandLink class="btn btn-default margin-side" action="#{albumController.prepareEdit}">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-danger" action="#{albumController.destroy}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </h:commandLink>
+                                    </ui:fragment>
+                                </c:if>
                             </div>
                         </div>
                         </div>

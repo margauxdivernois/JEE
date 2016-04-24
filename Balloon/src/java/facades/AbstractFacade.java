@@ -63,7 +63,7 @@ public abstract class AbstractFacade<T> {
     
     public User getCurrentUser(String username)
     {
-        List results = getEntityManager().createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();
+        List results = getEntityManager().createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();       
         return (User) results.get(0);
     }
     
