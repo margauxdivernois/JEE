@@ -17,6 +17,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean(name = "userController")
 @SessionScoped
@@ -227,10 +228,4 @@ public class UserController implements Serializable {
         }
 
     }
-    
-    public User getUserFromUsername(String username)
-    {
-        return ejbFacade.getUserFromUsername(username);
-    }
-
 }

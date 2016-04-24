@@ -7,6 +7,9 @@ package facades;
 
 import entities.Album;
 import entities.Image;
+import entities.Love;
+import entities.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +40,23 @@ public class ImageFacade extends AbstractFacade<Image> {
     public Album getAlbum(int albumID){
         EntityManager entitymanager = getEntityManager();
         return entitymanager.find(Album.class, albumID);
+    }	
+    
+    public void love(Love love, String username) {
+        EntityManager entityManager = getEntityManager();
+        love.setFkUser(getCurrentUser(username));
+        entityManager.persist(love);
     }
     
+    public boolean canLove(String username, Image image) {
+        EntityManager entityManager = getEntityManager();
+        User currentUser = getCurrentUser(username);
+
+        List results = entityManager.createNamedQuery("Love.findByUserAndImage")
+            .setParameter("fk_user", currentUser)
+            .setParameter("fk_image", image)
+            .getResultList();
+
+        return results.isEmpty();
+    }
 }

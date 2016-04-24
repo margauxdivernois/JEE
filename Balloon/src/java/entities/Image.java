@@ -215,6 +215,16 @@ public class Image implements Serializable {
     public void setLoveCollection(Collection<Love> loveCollection) {
         this.loveCollection = loveCollection;
     }
+    
+    public int getNumberOfLoves() 
+    { 
+        return loveCollection.size(); 
+    }
+    
+    public void addLove(Love love)
+    {
+        this.loveCollection.add(love);
+    }
 
     public Album getFkAlbum() {
         return fkAlbum;

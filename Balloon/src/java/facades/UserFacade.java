@@ -32,20 +32,16 @@ public class UserFacade extends AbstractFacade<User> {
     
     public User getUserFromUsername(String username)
     {
-        return new User();
-
-        /*try {
-           List results = em.createNamedQuery("User.findByUUsername")
-        .setParameter("uUsername", username)
-        .getResultList();
-            
-            return new User(); //(User) results.get(0);
+        try {
+           List results = em.createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();
+           return (User) results.get(0);
         }
         catch(Exception e)
         {
+            System.out.println("GET USER FROM USERNAME ERROR !");
             JsfUtil.addErrorMessage(e,"KO");
         }
-        return null;*/
+        return null;
     }
     
 }

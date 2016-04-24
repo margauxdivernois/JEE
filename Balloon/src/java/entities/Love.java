@@ -33,7 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Love.findAll", query = "SELECT l FROM Love l"),
     @NamedQuery(name = "Love.findByIdLove", query = "SELECT l FROM Love l WHERE l.idLove = :idLove"),
-    @NamedQuery(name = "Love.findByLDate", query = "SELECT l FROM Love l WHERE l.lDate = :lDate")})
+    @NamedQuery(name = "Love.findByLDate", query = "SELECT l FROM Love l WHERE l.lDate = :lDate"),
+    @NamedQuery(name = "Love.findByUserAndImage", 
+            query = "SELECT l FROM Love l WHERE l.fkImage = :fk_image AND l.fkUser = :fk_user")})
 public class Love implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,6 +56,7 @@ public class Love implements Serializable {
     private User fkUser;
 
     public Love() {
+        lDate = new Date();
     }
 
     public Love(Integer idLove) {

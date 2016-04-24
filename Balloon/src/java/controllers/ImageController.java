@@ -2,18 +2,28 @@ package controllers;
 
 import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
 import controllers.util.ImagesTools;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifIFD0Directory;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
+import entities.Love;
 import facades.ImageFacade;
 import java.io.File;
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map;import java.net.URL;import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -168,6 +178,8 @@ public class ImageController implements Serializable {
             
             //Save
             ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
+
+            readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();
@@ -322,6 +334,85 @@ public class ImageController implements Serializable {
             }
         }
 
+    }
+    
+    public void readMetaData(String urlString, String pictureName, Image image)
+    {  
+        System.out.println("READ IMAGE START !!! 2");
+        try {
+                
+            String pictureAddress = "OK";
+            pictureAddress += pictureName;
+            pictureAddress += ".jpg";    
+            
+            System.out.println("MyAddress : "+pictureAddress);
+
+            String pictureLongName = pictureName;
+            pictureLongName += ".jpg";
+            image.setIFilename(pictureLongName);
+            
+            URL url = new URL(urlString);
+            OutputStream os;
+            try (InputStream is = url.openStream()) {
+                os = new FileOutputStream(pictureAddress);
+                byte[] b = new byte[2048];
+                int length;
+                while ((length = is.read(b)) != -1) {
+                    os.write(b, 0, length);
+                }
+            }
+            os.close();
+
+            File file = new File(pictureAddress);
+            Metadata metadata = ImageMetadataReader.readMetadata(file);
+            /*for (Directory directory : metadata.getDirectories()) {
+                for (Tag tag : directory.getTags()) {
+                    System.out.println(tag);
+                }
+            }*/
+            
+            ExifSubIFDDirectory directorySub = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+            ExifIFD0Directory directory0 = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+            
+            System.out.println("CAMERA IMAGE TAG "+directory0.getString(ExifIFD0Directory.TAG_MODEL));
+            System.out.println("COPYRIGHT IMAGE TAG "+directorySub.getString(ExifSubIFDDirectory.TAG_COPYRIGHT));
+           
+            Date date = directorySub.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+            if(date != null)
+            {
+                image.setIdateCapture(date);
+            }
+            
+            String camera = directory0.getString(ExifIFD0Directory.TAG_MODEL);
+            if(camera != null)
+            {
+                image.setICamera(camera);
+            }
+            
+            String copyright = directorySub.getString(ExifSubIFDDirectory.TAG_COPYRIGHT);
+            if(copyright != null)
+            {
+                image.setICopyright(copyright);
+            }
+        }
+        catch (Exception e) {
+            System.out.println("READ IMAGE EXCEPTION !!!");
+            e.printStackTrace();
+        }
+        System.out.println("READ IMAGE END !!!");
+    }
+    
+    public void love(String username)
+    {
+        Love love = new Love();
+        love.setFkImage(current);
+        current.addLove(love);
+        getFacade().love(love, username);
+    }
+    
+    public boolean canLove(String username, Image image)
+    {
+        return getFacade().canLove(username, image);
     }
 
 }
