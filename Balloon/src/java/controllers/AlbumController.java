@@ -3,7 +3,8 @@ package controllers;
 import entities.Album;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import entities.Image;import entities.User;import facades.AlbumFacade;
+import entities.Image;import entities.Love;
+import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,6 +19,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.persistence.EntityManager;
 
 @ManagedBean(name = "albumController")
 @SessionScoped
@@ -260,7 +262,27 @@ public class AlbumController implements Serializable {
     
     public boolean isAlbumOwner(Album album, String username)
     {
-        System.out.println("IS ALBUM OWNER + CONTROLLER"+current);
         return getFacade().isAlbumOwner(username, album);
+    }
+    
+    public void love(Image img, String username)
+    {
+        System.out.println("LOVE FROM ALBUM !!");
+        Love love = new Love();
+        love.setFkImage(img);
+        img.addLove(love);
+        love.setFkUser(getFacade().getCurrentUser(username));
+        getFacade().love(love);
+        System.out.println("END OF LOVE FROM ALBUM !!");
+    }
+    
+    public void unlove(Image img, String username)
+    {
+        getFacade().unlove(img, username);
+    }
+    
+    public boolean canLove(String username, Image image)
+    {
+        return getFacade().canLove(username, image);
     }
 }

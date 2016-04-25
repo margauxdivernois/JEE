@@ -11,7 +11,7 @@
             <h:outputText value="#{bundle.ListAlbumTitle}"></h:outputText>
         </ui:define>
         <ui:define name="action">
-            <c:if test="#{albumController.items.rowCount != 0}">
+            <c:if test="#{albumController.items.rowCount != 0 and not empty request.remoteUser}">
                 <h:form>
                     <h:commandButton class="btn btn-primary" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
                 </h:form>
@@ -20,7 +20,6 @@
         <ui:define name="body">
             
             <div class="row">
-                
                 <h:form class="form-horizontal">
                     <h:panelGroup id="messagePanel" layout="block">
                         <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
@@ -43,7 +42,10 @@
                     <ui:repeat value="#{albumController.items}" var="album">
                         <div class="col-xs-6 col-sm-6 col-md-3">
                         <div class="thumbnail">
-                            <img src="../resources/image/#{album.getRandomImage().IFilename}" class="img-responsive" width="500" height="332" alt="noPicture"/>
+                            <div class="album-thumbnail">
+                                <img src="../resources/image/#{album.getRandomImage().IFilename}" alt="Main Image" />
+                            </div>
+                            
                             <div class="caption">
                                 <h3>
                                     <h:outputText value="#{album.AName}"/>

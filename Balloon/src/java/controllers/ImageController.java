@@ -37,6 +37,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
@@ -412,10 +413,12 @@ public class ImageController implements Serializable {
     
     public void love(String username)
     {
+        System.out.println("LOVE FROM IMAGE !!");
         Love love = new Love();
         love.setFkImage(current);
         current.addLove(love);
-        getFacade().love(love, username);
+        love.setFkUser(getFacade().getCurrentUser(username));
+        getFacade().love(love);
     }
     
     public void unlove(String username)

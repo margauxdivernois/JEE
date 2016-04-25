@@ -7,6 +7,7 @@ package facades;
 
 import entities.Album;
 import entities.Image;
+import entities.Love;
 import entities.User;
 import java.util.Objects;
 import javax.ejb.Stateless;

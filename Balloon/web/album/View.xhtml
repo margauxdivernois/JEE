@@ -6,8 +6,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
-
-
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewAlbumTitle}"></h:outputText>
@@ -101,7 +99,9 @@
                     
                     <div class="col-sm-4 col-md-3">
                       <div class="thumbnail">
-                          <img src="../resources/image/#{image.IFilename}" alt="asda" />
+                          <div class="album-thumbnail">
+                                <img src="../resources/image/#{image.IFilename}" alt="Main Image" />
+                          </div>
                         <div class="caption">
                             
                         <h3><h:outputText value="#{image.IName}"/></h3>
@@ -127,24 +127,46 @@
                                     </h:outputText>
                                 </td>
                             </tr>
+                            <tr>
+                                <td><h:outputLabel value="#{bundle.ViewImageNumberOfLoveLabel} "/></td>
+                                <td><h:outputText value=" #{image.getNumberOfLoves()} loves"/></td>
+                            </tr>
                             
                         </table>
                                 
                         <!-- Nice Try !! :) -->
                         <p class="text-center">
-                            <h:commandButton action="#{imageController.showImageFromAlbum}" class="btn btn-primary" value="#{bundle.ListImageViewLink}">
+                            <h:commandButton action="#{imageController.showImageFromAlbum}" class="btn btn-primary margin-side" value="#{bundle.ListImageViewLink}">
                                 <f:param name="idImage" value="#{image.idImage}" />
                             </h:commandButton>
                             
-                            <c:if test="#{not empty request.remoteUser and albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
+                            <c:if test="#{not empty request.remoteUser}">
+                                
+                                <ui:fragment rendered="#{albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
 
-                            <h:commandButton action="#{imageController.editImageFromAlbum}" class="btn btn-primary margin-side" value="#{bundle.ListImageEditLink}">
-                                <f:param name="idImage" value="#{image.idImage}" />
-                            </h:commandButton>
-                            
-                            <h:commandButton action="#{albumController.destroyImage}" class="btn btn-danger" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')">
-                                <f:param name="idImage" value="#{image.idImage}" />
-                            </h:commandButton>
+                                    <h:commandButton action="#{imageController.editImageFromAlbum}" class="btn btn-primary margin-side" value="#{bundle.ListImageEditLink}">
+                                        <f:param name="idImage" value="#{image.idImage}" />
+                                    </h:commandButton>
+
+                                    <h:commandButton action="#{albumController.destroyImage}" class="btn btn-danger" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')">
+                                        <f:param name="idImage" value="#{image.idImage}" />
+                                    </h:commandButton>
+                                
+                                </ui:fragment>
+                                
+                                <ui:fragment rendered="#{not albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
+                                    <ui:fragment rendered="#{albumController.canLove(request.remoteUser, image)}">
+                                        <h:commandLink class="btn btn-danger" action="#{albumController.love(image, request.remoteUser)}">
+                                            <i class="fa fa-heart" aria-hidden="true"></i> Love
+                                        </h:commandLink>
+                                    </ui:fragment>
+
+                                    <ui:fragment rendered="#{not albumController.canLove(request.remoteUser, image)}">
+                                        <h:commandLink class="btn btn-default" action="#{albumController.unlove(image, request.remoteUser)}">
+                                            <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> You're loving it
+                                        </h:commandLink>
+                                    </ui:fragment>
+                                </ui:fragment>
                                 
                             </c:if>
                         </p>
