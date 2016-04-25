@@ -50,8 +50,13 @@ public class AlbumFacade extends AbstractFacade<Album> {
     }
     
     public boolean isAlbumOwner(String username, Album album) {
-        
+        try {
         int currentUserId = getCurrentUser(username).getIdUser();
         return album.getFkUser().getIdUser() == currentUserId;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
     }
 }

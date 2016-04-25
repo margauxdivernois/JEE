@@ -40,6 +40,7 @@
                 <h:panelGroup rendered="#{albumController.items.rowCount > 0}">
                 
                     <ui:repeat value="#{albumController.items}" var="album">
+                        <ui:fragment rendered="#{(not album.apublicVisibility) or albumController.isAlbumOwner(album, request.remoteUser)}">
                         <div class="col-xs-6 col-sm-6 col-md-3">
                         <div class="thumbnail">
                             <div class="album-thumbnail">
@@ -68,6 +69,7 @@
                             </div>
                         </div>
                         </div>
+                        </ui:fragment>
                     </ui:repeat>
                 </h:panelGroup>
             </h:form>
