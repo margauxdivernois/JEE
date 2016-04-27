@@ -27,7 +27,7 @@
                 <div class="panel panel-default">
                     
                     <div class="panel-body">
-                        <h2>#{albumController.selected.AName}</h2>
+                        <h2>Album : #{albumController.selected.AName}</h2>
                         
                         <div class="row">
                             <div class='col-md-2'>
@@ -87,8 +87,7 @@
                 <br/><br/>
                 <h2>Images !</h2>
                 
-                
-                
+
                 <c:if test="#{albumController.selected.imageCollection.size() == 0}">
                     <p><b>Non t'en a pas dsl...</b></p>
                 </c:if>
@@ -127,8 +126,7 @@
                             </tr>
                             
                         </table>
-                                
-                        <!-- Nice Try !! :) -->
+
                         <p>
                             <h:commandButton action="#{imageController.editImageFromAlbum}" class="btn btn-primary" value="#{bundle.ListImageEditLink}">
                                 <f:param name="idImage" value="#{image.idImage}" />

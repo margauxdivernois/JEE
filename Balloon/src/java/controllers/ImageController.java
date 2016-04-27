@@ -5,9 +5,11 @@ import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
+import static com.sun.faces.el.FacesCompositeELResolver.ELResolverChainType.Faces;
 import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
+import entities.Album;
 import entities.Love;
 import facades.ImageFacade;
 import java.io.File;
@@ -30,6 +32,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -79,7 +82,7 @@ public class ImageController implements Serializable {
         current = getFacade().getImage(idImg);
     }
     
-    public void addImageFromAlbum(){
+    public String addImageFromAlbum(){
         
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
         
@@ -90,6 +93,8 @@ public class ImageController implements Serializable {
         current = new Image();
         selectedItemIndex = -1;
         current.setFkAlbum(getFacade().getAlbum(fkAlbum));
+        
+        return "Create";
     }
 
     public Image getSelected() {
@@ -181,9 +186,24 @@ public class ImageController implements Serializable {
             readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
             
             //Save
+            //current.getFkAlbum().addImageAlbum(current);
             getFacade().create(current);
+            
+            //getFacade().addImageAlbum(current.getFkAlbum(), current);
+            
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
-            return prepareCreate();
+            
+            //ExternalContext econtext = FacesContext.getCurrentInstance().getExternalContext();
+            //econtext.redirect(econtext.getRequestContextPath() + "/album/View.xhtml");
+            
+            //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            //ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+            
+            //Faces.setFlashAttribute("imageid", current.getIdImage());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("image", current);
+            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+
+            return "View";
         
         
         } catch (Exception e) {

@@ -37,6 +37,14 @@ public class ImageFacade extends AbstractFacade<Image> {
         return entitymanager.find(Image.class, imageID);
     }
     
+    
+    public void addImageAlbum(Album album, Image image){
+        EntityManager entitymanager = getEntityManager();
+        album.addImageAlbum(image);
+        
+        entitymanager.persist(album);
+    }
+    
     public Album getAlbum(int albumID){
         EntityManager entitymanager = getEntityManager();
         return entitymanager.find(Album.class, albumID);

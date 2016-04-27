@@ -53,7 +53,7 @@
                                 <p><h:outputText value="#{album.ADescription}"/></p>
                                 <p style="font-style: italic;"><h:outputText value="Pas de description" rendered="#{empty album.ADescription}" /></p>
                                 <p>
-                                    <h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/>
+                                    <h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}" />
                                     <h:commandButton class="btn btn-default margin-side" action="#{albumController.prepareEdit}" value="#{bundle.ListAlbumEditLink}"/>
                                     <h:commandButton class="btn btn-default" action="#{albumController.destroy}" value="#{bundle.ListAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
                                 </p>
