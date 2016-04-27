@@ -88,7 +88,6 @@ public class ImageController implements Serializable {
         current = getFacade().getImage(idImg);
     }
     public void addImageFromAlbum(){
-        
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
         
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -185,15 +184,13 @@ public class ImageController implements Serializable {
             current.setIFilename(current.getIName()+"_"+getFilename(file1));
             
             // HELP
-            //ImagesTools.readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
-            readMetaData(current.getIFilename(), current.getIName().replaceAll(" ", ""), current);
+            readMetaData(current.getIFilename(), current, context);
             
             //Save
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
             return prepareCreate();
-        
-        
+            
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -345,34 +342,10 @@ public class ImageController implements Serializable {
 
     }
     
-    public void readMetaData(String urlString, String pictureName, Image image)
+    public void readMetaData(String imageName, Image image, ServletContext context)
     {  
-        System.out.println("READ IMAGE START !!! 2");
         try {
-                
-            String pictureAddress = "OK";
-            pictureAddress += pictureName;
-            pictureAddress += ".jpg";    
-            
-            System.out.println("MyAddress : "+pictureAddress);
-
-            //String pictureLongName = pictureName;
-            //pictureLongName += ".jpg";
-            //image.setIFilename(pictureLongName);
-            
-            URL url = new URL(urlString);
-            OutputStream os;
-            try (InputStream is = url.openStream()) {
-                os = new FileOutputStream(pictureAddress);
-                byte[] b = new byte[2048];
-                int length;
-                while ((length = is.read(b)) != -1) {
-                    os.write(b, 0, length);
-                }
-            }
-            os.close();
-
-            File file = new File(pictureAddress);
+            File file = new File(context.getInitParameter("uploadDirectory")+imageName);
             Metadata metadata = ImageMetadataReader.readMetadata(file);
             /*for (Directory directory : metadata.getDirectories()) {
                 for (Tag tag : directory.getTags()) {
@@ -408,7 +381,6 @@ public class ImageController implements Serializable {
             System.out.println("READ IMAGE EXCEPTION !!!");
             e.printStackTrace();
         }
-        System.out.println("READ IMAGE END !!!");
     }
     
     public void love(String username)
@@ -435,5 +407,4 @@ public class ImageController implements Serializable {
     {
         return getFacade().isImageOwner(username, current);
     }
-
 }

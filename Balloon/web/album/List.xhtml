@@ -61,7 +61,11 @@
                                         <h:commandLink class="btn btn-default margin-side" action="#{albumController.prepareEdit}">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </h:commandLink>
-                                        <h:commandLink class="btn btn-danger" action="#{albumController.destroy}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')">
+                                        <h:commandLink action="#{imageController.addImageFromAlbum}" class="btn btn-info">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            <f:param name="idAlbum" value="#{album.idAlbum}" />
+                                        </h:commandLink>
+                                        <h:commandLink class="btn btn-danger margin-side" action="#{albumController.destroy}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </h:commandLink>
                                     </ui:fragment>
