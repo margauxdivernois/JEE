@@ -36,12 +36,14 @@
                         <h:inputTextarea rows="4" cols="30" id="IDescription" value="#{imageController.selected.IDescription}" title="#{bundle.CreateImageTitle_IDescription}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_IDescription}"/>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_ICopyright}" for="ICopyright" />
                     <div class="col-sm-10">
                         <h:inputTextarea rows="4" cols="30" id="ICopyright" value="#{imageController.selected.ICopyright}" title="#{bundle.CreateImageTitle_ICopyright}"/>
                     </div>
                 </div>
+
                 
                 <!--<div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_Album}" for="fkAlbum" />
@@ -50,6 +52,7 @@
                             <f:selectItems value="#{albumController.itemsAvailableSelectOne}"/>
                         </h:selectOneMenu>
                     </div>
+
                 </div>-->
                 
                 <div class="form-group">
@@ -62,12 +65,12 @@
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
                         <h:commandButton class="btn btn-primary" action="#{imageController.create}" value="#{bundle.CreateImageSaveLink}" />
-                        <h:link class="btn btn-default margin-side" outcome="/index" value="#{bundle.CreateImageCancelLink}"/>
+                        <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.CreateImageCancelLink}"/>
                     
                     </div>
                 </div>
                 
-            </h:form>
+                            </h:form>
         </ui:define>
     </ui:composition>
 

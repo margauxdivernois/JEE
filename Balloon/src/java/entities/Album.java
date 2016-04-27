@@ -93,6 +93,10 @@ public class Album implements Serializable {
         return imageCollection.remove(image);
     }
     
+     public boolean addImageAlbum(Image image){
+        return imageCollection.add(image);
+    }
+    
     public Integer getIdAlbum() {
         return idAlbum;
     }

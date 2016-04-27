@@ -5,9 +5,11 @@ import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
+import static com.sun.faces.el.FacesCompositeELResolver.ELResolverChainType.Faces;
 import entities.Image;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
+import entities.Album;
 import entities.Love;
 import facades.ImageFacade;
 import java.io.File;
@@ -30,6 +32,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -97,6 +100,8 @@ public class ImageController implements Serializable {
         current = new Image();
         selectedItemIndex = -1;
         current.setFkAlbum(getFacade().getAlbum(fkAlbum));
+        
+        return "Create";
     }
 
     public Image getSelected() {
@@ -342,9 +347,12 @@ public class ImageController implements Serializable {
 
     }
     
+
     public void readMetaData(String imageName, Image image, ServletContext context)
     {  
+        
         try {
+            
             File file = new File(context.getInitParameter("uploadDirectory")+imageName);
             Metadata metadata = ImageMetadataReader.readMetadata(file);
             /*for (Directory directory : metadata.getDirectories()) {
@@ -381,6 +389,7 @@ public class ImageController implements Serializable {
             System.out.println("READ IMAGE EXCEPTION !!!");
             e.printStackTrace();
         }
+
     }
     
     public void love(String username)

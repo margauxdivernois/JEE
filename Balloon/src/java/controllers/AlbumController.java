@@ -7,11 +7,15 @@ import entities.Image;import entities.Love;
 import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -19,14 +23,17 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 
+
+
 @ManagedBean(name = "albumController")
-@SessionScoped
+@RequestScoped
 public class AlbumController implements Serializable {
 
-
     public Album current;
+    
     private DataModel items = null;
     @EJB
     private facades.AlbumFacade ejbFacade;
@@ -34,7 +41,23 @@ public class AlbumController implements Serializable {
     private int selectedItemIndex;
 
     
+    /*private List<Album> listRandAlbum;
+
+    public List<Album> getListRandAlbum() {
+        return listRandAlbum;
+    }
+
+    public void setListRandAlbum(List<Album> listRandAlbum) {
+        this.listRandAlbum = listRandAlbum;
+    }
+    */
+    
+    
     public AlbumController() {
+        //listRandAlbum = getFacade().getVisibleAlbums();
+        
+        
+        System.out.println("ALBUM CONSTR");
     }
 
     public void destroyImage() {
@@ -88,7 +111,11 @@ public class AlbumController implements Serializable {
     }
 
     public String prepareView() {
+        
+        
+        System.out.println("ALBUM prepareView");
         current = (Album) getItems().getRowData();
+        //updateCurrentItem();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }

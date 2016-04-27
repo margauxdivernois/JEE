@@ -36,9 +36,28 @@ public class AlbumFacade extends AbstractFacade<Album> {
 
         album.removeImageAlbum(image);
         entitymanager.persist(album);
-
         entitymanager.remove(image);
     }
+    
+    public Album refreshAlbum(int albumid)
+    {
+        EntityManager entitymanager = getEntityManager();
+
+        Album freshAlbum = entitymanager.find(Album.class, albumid);
+
+        return freshAlbum;
+    }
+    
+    /*public List<Album> getVisibleAlbums(){
+        EntityManager entityManager = getEntityManager();
+
+        List results = entityManager.createNamedQuery("Album.findByApublicVisibility")
+            .setParameter("apublicVisibility", true)
+            .getResultList();
+        
+        return results;
+    }*/
+   
     
     public AlbumFacade() {
         super(Album.class);

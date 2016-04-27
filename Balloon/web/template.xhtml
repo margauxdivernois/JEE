@@ -10,16 +10,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        <h:outputStylesheet library="css" name="slider.css"/>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
     </h:head>
 
     <h:body>
         
-        <nav class="navbar navbar-inverse ">
+        <nav class="navbar navbar-inverse mynav" style="margin-bottom: 0">
+            
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/Balloon">Balloon</a>
+            <a class="navbar-brand" href="/Balloon"><i class="fa fa-picture-o" aria-hidden="true"></i> Balloon</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <div class="navbar-form navbar-right">
@@ -43,17 +45,16 @@
             
           </div><!--/.navbar-collapse -->
         </div>
-      </nav>
+        </nav>
+        
+        <ui:insert name="slider"></ui:insert>
         
         <div class="container">
-            
-            
-            
-            
+           
             <div class="row">
                 <div class="col-md-12">
                     <h1>
-                        <ui:insert name="title">Default Title</ui:insert>
+                        <ui:insert name="title"></ui:insert>
                     </h1>
                     <ui:insert name="action"></ui:insert>
                     <p>
