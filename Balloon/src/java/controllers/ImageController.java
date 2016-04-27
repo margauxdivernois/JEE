@@ -40,6 +40,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
@@ -64,8 +65,6 @@ public class ImageController implements Serializable {
     public void setFile1(Part file1) {
         this.file1 = file1;
     }
-    
-  
 
     public ImageController() {
     }
@@ -82,7 +81,16 @@ public class ImageController implements Serializable {
         current = getFacade().getImage(idImg);
     }
     
-    public String addImageFromAlbum(){
+    public void showImageFromAlbum()
+    {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/View.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idImg = Integer.parseInt(params.get("idImage"));
+        current = getFacade().getImage(idImg);
+    }
+    public void addImageFromAlbum(){
         
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
         
@@ -425,15 +433,27 @@ public class ImageController implements Serializable {
     
     public void love(String username)
     {
+        System.out.println("LOVE FROM IMAGE !!");
         Love love = new Love();
         love.setFkImage(current);
         current.addLove(love);
-        getFacade().love(love, username);
+        love.setFkUser(getFacade().getCurrentUser(username));
+        getFacade().love(love);
+    }
+    
+    public void unlove(String username)
+    {
+        getFacade().unlove(current, username);
     }
     
     public boolean canLove(String username, Image image)
     {
         return getFacade().canLove(username, image);
+    }
+    
+    public boolean isImageOwner(String username)
+    {
+        return getFacade().isImageOwner(username, current);
     }
 
 }

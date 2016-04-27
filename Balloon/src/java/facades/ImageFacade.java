@@ -49,22 +49,9 @@ public class ImageFacade extends AbstractFacade<Image> {
         EntityManager entitymanager = getEntityManager();
         return entitymanager.find(Album.class, albumID);
     }	
-    
-    public void love(Love love, String username) {
-        EntityManager entityManager = getEntityManager();
-        love.setFkUser(getCurrentUser(username));
-        entityManager.persist(love);
-    }
-    
-    public boolean canLove(String username, Image image) {
-        EntityManager entityManager = getEntityManager();
+
+    public boolean isImageOwner(String username, Image image) {
         User currentUser = getCurrentUser(username);
-
-        List results = entityManager.createNamedQuery("Love.findByUserAndImage")
-            .setParameter("fk_user", currentUser)
-            .setParameter("fk_image", image)
-            .getResultList();
-
-        return results.isEmpty();
+        return currentUser.getIdUser() == image.getFkAlbum().getFkUser().getIdUser();
     }
 }

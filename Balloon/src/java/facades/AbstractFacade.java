@@ -5,6 +5,8 @@
  */
 package facades;
 
+import entities.Image;
+import entities.Love;
 import entities.User;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -63,8 +65,37 @@ public abstract class AbstractFacade<T> {
     
     public User getCurrentUser(String username)
     {
-        List results = getEntityManager().createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();
+        List results = getEntityManager().createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();       
         return (User) results.get(0);
+    }
+    
+    public void love(Love love) {
+        getEntityManager().persist(love);
+    }
+    
+    public void unlove(Image image, String username) {
+        EntityManager entityManager = getEntityManager();
+        User currentUser = getCurrentUser(username);
+        
+        Love love = (Love) entityManager.createNamedQuery("Love.findByUserAndImage")
+            .setParameter("fk_user", currentUser)
+            .setParameter("fk_image", image)
+            .getSingleResult();
+        
+        entityManager.remove(love);
+        image.removeLove(love);
+    }
+    
+    public boolean canLove(String username, Image image) {
+        EntityManager entityManager = getEntityManager();
+        User currentUser = getCurrentUser(username);
+
+        List results = entityManager.createNamedQuery("Love.findByUserAndImage")
+            .setParameter("fk_user", currentUser)
+            .setParameter("fk_image", image)
+            .getResultList();
+
+        return results.isEmpty();
     }
     
 }

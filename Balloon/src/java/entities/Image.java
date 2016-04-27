@@ -225,6 +225,11 @@ public class Image implements Serializable {
     {
         this.loveCollection.add(love);
     }
+    
+    public void removeLove(Love love)
+    {
+        this.loveCollection.remove(love);
+    }
 
     public Album getFkAlbum() {
         return fkAlbum;

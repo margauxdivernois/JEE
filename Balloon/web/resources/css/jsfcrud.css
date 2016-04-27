@@ -2,3 +2,31 @@
     margin-right:10px;
     margin-left: 10px;
 }
+
+.album-thumbnail {
+  position: relative;
+  width: inherit;
+  height: 200px;
+  overflow: hidden;
+}
+
+.album-thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+
+.album-thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
+.img-view {
+    width: 100%;
+    height: auto;
+}

@@ -13,9 +13,18 @@
         
         <ui:define name="action">
             <h:form>
-                <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewImageEditLink}"/>
-                <h:commandButton class="btn btn-default margin-side" action="#{imageController.destroyAndView}" value="#{bundle.ViewImageDestroyLink}" onclick="return confirm('L\'image sera intégralement supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
-                <h:commandButton class="btn btn-default"  action="#{imageController.prepareList}" value="#{bundle.ViewImageShowAllLink}"/>
+                
+                <c:if test="#{not empty request.remoteUser}">
+                    <c:if test="#{imageController.isImageOwner(request.remoteUser)}">
+                        <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewImageEditLink}"/>
+                        <h:commandButton class="btn btn-default margin-side" action="#{imageController.destroyAndView}" value="#{bundle.ViewImageDestroyLink}" onclick="return confirm('L\'image sera intégralement supprimée. Êtes vous sûr de vouloir poursuivre?')"/>
+                    </c:if>
+                    
+                </c:if>
+             
+                <h:commandButton class="btn btn-default"  action="#{albumController.returnAlbum}" value="#{bundle.ViewImageReturnAlbumLink}">
+                    <f:param name="idAlbum" value="#{imageController.selected.fkAlbum.idAlbum}" />
+                </h:commandButton>
             </h:form>
         </ui:define>
         
@@ -27,7 +36,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class='col-md-6'>
-                        <img src="../resources/image/#{imageController.selected.IFilename}" width="500" height="332" alt="#{imageController.selected.IName}"/>
+                        <img src="../resources/image/#{imageController.selected.IFilename}" class="img-view" alt="#{imageController.selected.IName}"/>
                     </div>
                     <div class='col-md-6'>
                         <p>
@@ -60,31 +69,26 @@
                         </p>
                         
                         <p>
-                            
-                            <c:if test="#{empty request.remoteUser}">
-                                <i class="fa fa-heart" aria-hidden="true"></i>
-                                <h:outputText value=" #{imageController.selected.getNumberOfLoves()} loves"/>
-                            </c:if>
-                            
-                            <c:if test="#{not empty request.remoteUser}">
-                                
-                                <c:if test="#{imageController.canLove(request.remoteUser, imageController.selected)}">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <h:outputText value=" #{imageController.selected.getNumberOfLoves()} loves"/>
-                                    <h:form>
-                                        <h:commandLink class="btn btn-primary" action="#{imageController.love(request.remoteUser)}" value="Love" />
-                                    </h:form>
-                                </c:if>
-                                
-                                <c:if test="#{not imageController.canLove(request.remoteUser, imageController.selected)}">
-                                    <i class="fa fa-heart" style="color: red" aria-hidden="true"></i>
-                                    <h:outputText value=" #{imageController.selected.getNumberOfLoves()} loves"/>
-                                </c:if>
-                                
-                            </c:if>
-                            
+                            <h:outputLabel value="#{bundle.ViewImageNumberOfLoveLabel} "/>
+                            <h:outputText value=" #{imageController.selected.getNumberOfLoves()} loves"/>
                         </p>
-                       
+                        
+
+                        <c:if test="#{not empty request.remoteUser and not imageController.isImageOwner(request.remoteUser)}">
+                        <h:form>
+                            <c:if test="#{imageController.canLove(request.remoteUser, imageController.selected)}">
+                                <h:commandLink class="btn btn-danger" action="#{imageController.love(request.remoteUser)}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i> Love
+                                </h:commandLink>
+                            </c:if>
+
+                            <c:if test="#{not imageController.canLove(request.remoteUser, imageController.selected)}">
+                                <h:commandLink class="btn btn-default" action="#{imageController.unlove(request.remoteUser)}">
+                                    <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> You're loving it
+                                </h:commandLink>
+                            </c:if>
+                        </h:form>
+                        </c:if>
                         
                     </div>
                 </div>

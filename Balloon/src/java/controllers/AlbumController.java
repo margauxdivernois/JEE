@@ -3,7 +3,8 @@ package controllers;
 import entities.Album;
 import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
-import entities.Image;import entities.User;import facades.AlbumFacade;
+import entities.Image;import entities.Love;
+import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -23,6 +24,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
 
 
@@ -112,14 +114,12 @@ public class AlbumController implements Serializable {
 
     public String create() {
         try {
+            User currentUser = getFacade().getCurrentUser("Himi");
+            current.setFkUser(currentUser);
             
-            //UserController userController = new UserController();
-            //User user = userController.getUserFromUsername("Himi");
-            //current.setFkUser(new User());
-
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
-            return prepareCreate();
+            return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -172,6 +172,15 @@ public class AlbumController implements Serializable {
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
+    }
+    
+    public void returnAlbum() {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idAlbum = Integer.parseInt(params.get("idAlbum"));
+        current = getFacade().getAlbum(idAlbum);
     }
 
     private void updateCurrentItem() {
@@ -263,5 +272,30 @@ public class AlbumController implements Serializable {
         }
 
     }
-
+    
+    public boolean isAlbumOwner(Album album, String username)
+    {
+        return getFacade().isAlbumOwner(username, album);
+    }
+    
+    public void love(Image img, String username)
+    {
+        System.out.println("LOVE FROM ALBUM !!");
+        Love love = new Love();
+        love.setFkImage(img);
+        img.addLove(love);
+        love.setFkUser(getFacade().getCurrentUser(username));
+        getFacade().love(love);
+        System.out.println("END OF LOVE FROM ALBUM !!");
+    }
+    
+    public void unlove(Image img, String username)
+    {
+        getFacade().unlove(img, username);
+    }
+    
+    public boolean canLove(String username, Image image)
+    {
+        return getFacade().canLove(username, image);
+    }
 }
