@@ -41,9 +41,23 @@ public class AlbumController implements Serializable {
     private int selectedItemIndex;
 
     
+    /*private List<Album> listRandAlbum;
+
+    public List<Album> getListRandAlbum() {
+        return listRandAlbum;
+    }
+
+    public void setListRandAlbum(List<Album> listRandAlbum) {
+        this.listRandAlbum = listRandAlbum;
+    }
+    */
+    
+    
     public AlbumController() {
+        //listRandAlbum = getFacade().getVisibleAlbums();
+        
+        
         System.out.println("ALBUM CONSTR");
-         
     }
 
     public void destroyImage() {

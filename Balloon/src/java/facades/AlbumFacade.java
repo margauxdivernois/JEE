@@ -48,6 +48,17 @@ public class AlbumFacade extends AbstractFacade<Album> {
         return freshAlbum;
     }
     
+    /*public List<Album> getVisibleAlbums(){
+        EntityManager entityManager = getEntityManager();
+
+        List results = entityManager.createNamedQuery("Album.findByApublicVisibility")
+            .setParameter("apublicVisibility", true)
+            .getResultList();
+        
+        return results;
+    }*/
+   
+    
     public AlbumFacade() {
         super(Album.class);
     }
