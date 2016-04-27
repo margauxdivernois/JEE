@@ -90,7 +90,7 @@ public class ImageController implements Serializable {
 	int idImg = Integer.parseInt(params.get("idImage"));
         current = getFacade().getImage(idImg);
     }
-    public void addImageFromAlbum(){
+    public String addImageFromAlbum(){
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
         
         FacesContext fc = FacesContext.getCurrentInstance();
