@@ -222,16 +222,7 @@ public class ImageController implements Serializable {
     public String destroy() {
         current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        
-        ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        File file = new File(context.getInitParameter("uploadDirectory")+current.getIFilename());
-            
-        System.out.println("BEFORE DELETE THE FILE"+file.getPath());
-        if(!file.delete())
-        {
-            System.out.println("COULD NOT DELETE THE FILE"+file.getPath());
-        }
-            
+          
         performDestroy();
         recreatePagination();
         recreateModel();

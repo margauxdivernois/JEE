@@ -150,6 +150,7 @@
 
                                     <h:commandButton action="#{albumController.destroyImage}" class="btn btn-danger" value="#{bundle.ListImageDestroyLink}" onclick="return confirm('L\'image sera supprimée. Êtes vous sûr de vouloir poursuivre?')">
                                         <f:param name="idImage" value="#{image.idImage}" />
+                                        <f:param name="filenameImage" value="#{image.IFilename}" />
                                     </h:commandButton>
                                 
                                 </ui:fragment>

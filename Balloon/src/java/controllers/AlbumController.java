@@ -5,6 +5,7 @@ import controllers.util.JsfUtil;
 import controllers.util.PaginationHelper;
 import entities.Image;import entities.Love;
 import entities.User;import facades.AlbumFacade;
+import java.io.File;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -26,6 +27,7 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.servlet.ServletContext;
 
 
 
@@ -70,8 +72,18 @@ public class AlbumController implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
 	int idImg = Integer.parseInt(params.get("idImage"));
+        String filenameImage = params.get("filenameImage");
         
         System.out.println("destroyImage : Called with parameter "+idImg);
+        
+        ServletContext context = (ServletContext) fc.getExternalContext().getContext();
+        File file = new File(context.getInitParameter("uploadDirectory")+filenameImage);
+            
+        System.out.println("BEFORE DELETE THE FILE"+file.getPath());
+        if(!file.delete())
+        {
+            System.out.println("COULD NOT DELETE THE FILE"+file.getPath());
+        }
         
         getFacade().removeImage(idImg, current);
     }
