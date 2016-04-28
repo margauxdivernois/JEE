@@ -78,6 +78,7 @@
                 </div>
                 
                 <c:if test="#{not empty request.remoteUser and albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
+                
                     <h:commandButton action="#{imageController.addImageFromAlbum}" class="btn btn-success btn-block" value="#{bundle.ListImageCreateLink}">
                         <f:param name="idAlbum" value="#{albumController.selected.idAlbum}" />
                     </h:commandButton>
@@ -97,9 +98,18 @@
                     
                     <div class="col-md-3">
                       <div class="thumbnail">
-                          <div class="album-thumbnail">
-                            <img src="../resources/image/#{image.IFilename}" alt="Main Image" />
+                          <div class="album-thumbnail lightgallery">
+                              <a href="../resources/image/#{image.IFilename}"><img src="../resources/image/#{image.IFilename}" alt="Main Image" /></a>
                           </div>
+                          
+                            <script type="text/javascript">
+
+                                $('.lightgallery').lightGallery();
+      
+                            </script>
+  
+                          
+                          
                         <div class="caption">
                             
                         <h3><h:outputText value="#{image.IName}"/></h3>
@@ -132,7 +142,6 @@
                             
                         </table>
                                 
-                        <!-- Nice Try !! :) -->
                         <p class="text-center">
                             <h:commandButton action="#{imageController.showImageFromAlbum}" class="btn btn-primary margin-side" value="#{bundle.ListImageViewLink}">
                                 <f:param name="idImage" value="#{image.idImage}" />
@@ -169,7 +178,8 @@
                                 
                             </c:if>
                         </p>
-  
+                        
+       
                         </div>
                       </div>
                     </div>
@@ -182,4 +192,7 @@
             
         </ui:define>
     </ui:composition>
+    
+    
+    
 </html>

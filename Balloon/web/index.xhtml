@@ -65,13 +65,15 @@
                 <div class="col-lg-4">
               
                     <h2 class="header-apercu">
-                        <img class="img-circle" src="../resources/image/#{album.getRandomImage().IFilename}" alt="MainPicture" width="140" height="140"/>
+                        <img class="img-circle" src="resources/image/#{album.getRandomImage().IFilename}" alt="MainPicture" width="140" height="140"/>
           
                         <br/> #{album.AName}
                     </h2>
-                    <p> #{album.ADescription}</p>
+                    <p style="text-align: center;"> #{album.ADescription}</p>
                     <h:form>
-                        <p><h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/></p>
+                        <p style="text-align: center;"><h:commandButton class="btn btn-primary" action="#{albumController.prepareViewAlbum}" value="#{bundle.ListAlbumViewLink}">
+                            <f:param name="idAlbum" value="#{album.idAlbum}" />
+                        </h:commandButton></p>
                     </h:form>
                 </div><!-- /.col-lg-4 -->
            
@@ -81,9 +83,7 @@
             
             
             
-        </div>
-        
-    </ui:define>
+        </div>    </ui:define>
     
 </ui:composition>
 </html>
