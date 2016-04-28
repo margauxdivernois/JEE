@@ -222,6 +222,16 @@ public class ImageController implements Serializable {
     public String destroy() {
         current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        
+        ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        File file = new File(context.getInitParameter("uploadDirectory")+current.getIFilename());
+            
+        System.out.println("BEFORE DELETE THE FILE"+file.getPath());
+        if(!file.delete())
+        {
+            System.out.println("COULD NOT DELETE THE FILE"+file.getPath());
+        }
+            
         performDestroy();
         recreatePagination();
         recreateModel();
@@ -249,7 +259,8 @@ public class ImageController implements Serializable {
     }
 
     private void performDestroy() {
-        try {
+        
+        try{
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageDeleted"));
         } catch (Exception e) {

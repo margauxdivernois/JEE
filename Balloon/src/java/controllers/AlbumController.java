@@ -29,7 +29,7 @@ import javax.persistence.EntityManager;
 
 
 @ManagedBean(name = "albumController")
-@RequestScoped
+@SessionScoped
 public class AlbumController implements Serializable {
 
     public Album current;
@@ -98,7 +98,7 @@ public class AlbumController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize() - 1}));
                 }
             };
         }
@@ -238,7 +238,11 @@ public class AlbumController implements Serializable {
         recreateModel();
         return "List";
     }
-
+    
+    public int getCurrentPage() {
+        return ((pagination.getPageFirstItem() + 1)/ pagination.getItemsCount()) + 1;
+    }
+        
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
