@@ -22,14 +22,7 @@
                         <h:inputText id="IName" value="#{imageController.selected.IName}" title="#{bundle.CreateImageTitle_IName}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_IName}"/>
                     </div>
                 </div>
-                
-                <!--<div class="form-group">
-                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_IFilename}" for="IFilename" />
-                    <div class="col-sm-10">
-                        <h:inputText id="IFilename" value="#{imageController.selected.IFilename}" title="#{bundle.CreateImageTitle_IFilename}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_IFilename}"/>
-                    </div>
-                </div>-->
-                
+              
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_IDescription}" for="IDescription" />
                     <div class="col-sm-10">
@@ -43,17 +36,6 @@
                         <h:inputTextarea rows="4" cols="30" id="ICopyright" value="#{imageController.selected.ICopyright}" title="#{bundle.CreateImageTitle_ICopyright}"/>
                     </div>
                 </div>
-
-                
-                <!--<div class="form-group">
-                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_Album}" for="fkAlbum" />
-                    <div class="col-sm-10">
-                        <h:selectOneMenu id="fkAlbum" value="#{imageController.selected.fkAlbum}" title="#{bundle.CreateImageTitle_fkAlbum}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_fkAlbum}">
-                            <f:selectItems value="#{albumController.itemsAvailableSelectOne}"/>
-                        </h:selectOneMenu>
-                    </div>
-
-                </div>-->
                 
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_IFilename}" for="uploadfile" />
@@ -65,7 +47,6 @@
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
                         <h:commandButton class="btn btn-primary" action="#{imageController.create}" value="#{bundle.CreateImageSaveLink}" />
-                        <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.CreateImageCancelLink}"/>
                     
                     </div>
                 </div>

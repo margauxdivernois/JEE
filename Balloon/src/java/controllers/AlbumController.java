@@ -63,11 +63,14 @@ public class AlbumController implements Serializable {
     
     
     public AlbumController() {
-       
-        
-        System.out.println("ALBUM CONSTR");
+
     }
 
+    public void setCurrent(Album album)
+    {
+        current = album;
+    }
+            
     public void destroyImage() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
@@ -79,7 +82,6 @@ public class AlbumController implements Serializable {
         ServletContext context = (ServletContext) fc.getExternalContext().getContext();
         File file = new File(context.getInitParameter("uploadDirectory")+filenameImage);
             
-        System.out.println("BEFORE DELETE THE FILE"+file.getPath());
         if(!file.delete())
         {
             System.out.println("COULD NOT DELETE THE FILE"+file.getPath());
@@ -130,7 +132,6 @@ public class AlbumController implements Serializable {
 
     public String prepareView() {
         
-        
         System.out.println("ALBUM prepareView");
         current = (Album) getItems().getRowData();
         //updateCurrentItem();
@@ -178,23 +179,19 @@ public class AlbumController implements Serializable {
     public String destroy() {
         current = (Album) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        
         performDestroy();
         recreatePagination();
         recreateModel();
         return "List";
     }
 
-    public String destroyAndView() {
+    public String destroyAndViewList() {
         performDestroy();
         recreateModel();
         updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
+        recreateModel();
+        return "List";
     }
 
     private void performDestroy() {
@@ -333,5 +330,17 @@ public class AlbumController implements Serializable {
     public boolean canLove(String username, Image image)
     {
         return getFacade().canLove(username, image);
+    }
+    
+    public String accessList()
+    {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/List.xhtml");
+        return "List";
+    }
+    
+    public String getUploadDirectory()
+    {
+        ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return context.getInitParameter("uploadDirectory");
     }
 }

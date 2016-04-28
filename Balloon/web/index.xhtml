@@ -34,7 +34,7 @@
               <div class="carousel-caption">
                 <h1>Curieux ?</h1>
                 <p>Si vous aimez les ragots et si vous êtes une mauvaise langue alors Balloon est parfait pour vous !</p>
-                <p><h:link outcome="/album/List" value="TOUT voire !" class="btn btn-lg btn-primary"/></p>
+                <p><h:link outcome="/album/List" value="TOUT voir !" class="btn btn-lg btn-primary"/></p>
               </div>
             </div>
           </div>
@@ -83,21 +83,6 @@
             
         </div>
         
-        
-        <br />
-        <h:link outcome="/album/List" value="Show All Album Items"/>
-        <br />
-        <h:link outcome="/image/List" value="Show All Image Items"/>
-        <br />
-        <h:link outcome="/permission/List" value="Show All Permission Items"/>
-        <br />
-        <h:link outcome="/user/List" value="Show All User Items"/>
-
-    <ui:fragment rendered="#{not empty request.remoteUser}">
-        <p>This is only rendered when someone's been logged in.</p>
-        <p>Welcome, you're logged in as #{request.remoteUser}!</p>
-    </ui:fragment>
-
     </ui:define>
     
 </ui:composition>

@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map;import java.net.URL;import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -42,6 +45,8 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 @ManagedBean(name = "imageController")
@@ -55,6 +60,9 @@ public class ImageController implements Serializable {
     private facades.ImageFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    
+    @ManagedProperty(value="#{albumController}")
+    private AlbumController albumController;
     
     private Part file1;
 
@@ -194,7 +202,10 @@ public class ImageController implements Serializable {
             //Save
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageCreated"));
-            return prepareCreate();
+            
+            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+            albumController.setCurrent(current.getFkAlbum());
+            return "View";
             
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -237,21 +248,28 @@ public class ImageController implements Serializable {
     }
 
     public String destroyAndView() {
+        Album album = current.getFkAlbum();
         performDestroy();
         recreateModel();
         updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+        albumController.setCurrent(album);
+        
+        return "View";
     }
 
     private void performDestroy() {
         
         try{
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ServletContext context = (ServletContext) fc.getExternalContext().getContext();
+            File file = new File(context.getInitParameter("uploadDirectory")+current.getIFilename());
+
+            if(!file.delete())
+            {
+                System.out.println("COULD NOT DELETE THE FILE"+file.getPath());
+            }
+
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageDeleted"));
         } catch (Exception e) {
@@ -346,13 +364,10 @@ public class ImageController implements Serializable {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Image.class.getName());
             }
         }
-
     }
     
-
     public void readMetaData(String imageName, Image image, ServletContext context)
-    {  
-        
+    {   
         try {
             
             File file = new File(context.getInitParameter("uploadDirectory")+imageName);
@@ -416,5 +431,32 @@ public class ImageController implements Serializable {
     public boolean isImageOwner(String username)
     {
         return getFacade().isImageOwner(username, current);
+    }
+    
+    public AlbumController getAlbumController()
+    {
+    return albumController;
+    }
+
+    public void setAlbumController(AlbumController albumController)
+    {
+    this.albumController = albumController;
+    }
+    
+    public String returnToAlbum()
+    {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest)context.getRequest();
+        HttpServletResponse response = (HttpServletResponse)context.getResponse();
+
+        String referer = request.getHeader("Referer");
+        try {
+            response.sendRedirect(referer);
+        } catch (IOException ex) {
+            Logger.getLogger(ImageController.class.getName()).log(Level.SEVERE, null, ex);
+            return "Index";
+        }
+        
+        return null;
     }
 }

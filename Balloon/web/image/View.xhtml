@@ -37,7 +37,9 @@
                 <div class="panel-body">
                     <div class='col-md-6'>
                         <img src="../resources/image/#{imageController.selected.IFilename}" class="img-view" alt="#{imageController.selected.IName}"/>
+                    <p></p>
                     </div>
+                    
                     <div class='col-md-6'>
                         <p>
                             <h:outputLabel value="#{bundle.ViewImageLabel_IDescription} "/> 
@@ -47,14 +49,14 @@
                         <p>
                             <h:outputLabel value="#{bundle.ViewImageLabel_idateCapture} "/> 
                             <h:outputText value="#{imageController.selected.idateCapture}" title="#{bundle.ViewImageTitle_idateCapture}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p>
                         
                         <p>
                             <h:outputLabel value="#{bundle.ViewImageLabel_idateUpload} "/>
                             <h:outputText value="#{imageController.selected.idateUpload}" title="#{bundle.ViewImageTitle_idateUpload}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p>
                         
