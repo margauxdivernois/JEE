@@ -394,7 +394,6 @@ public class ImageController implements Serializable {
     
     public void love(String username)
     {
-        System.out.println("LOVE FROM IMAGE !!");
         Love love = new Love();
         love.setFkImage(current);
         current.addLove(love);

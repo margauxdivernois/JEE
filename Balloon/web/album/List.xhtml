@@ -18,7 +18,6 @@
             </c:if>
         </ui:define>
         <ui:define name="body">
-            
             <div class="row">
                 <h:form class="form-horizontal">
                     <h:panelGroup id="messagePanel" layout="block">
@@ -39,6 +38,10 @@
                 
                 <h:panelGroup rendered="#{albumController.items.rowCount > 0}">
                 
+                    <h:outputText value="#{albumController.pagination.pageFirstItem + 1}..#{albumController.pagination.pageLastItem + 1}/#{albumController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{albumController.previous}" value="#{bundle.Previous} #{albumController.pagination.pageSize}" rendered="#{albumController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{albumController.next}" value="#{bundle.Next} #{albumController.pagination.pageSize}" rendered="#{albumController.pagination.hasNextPage}"/>&nbsp;
+                    
                     <ui:repeat value="#{albumController.items}" var="album">
                         <ui:fragment rendered="#{(not album.apublicVisibility) or albumController.isAlbumOwner(album, request.remoteUser)}">
                         <div class="col-xs-6 col-sm-6 col-md-3">

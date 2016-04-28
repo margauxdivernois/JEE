@@ -7,6 +7,7 @@ package facades;
 
 import controllers.util.JsfUtil;
 import entities.User;
+import entities.UserGroup;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,18 +31,22 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
     
-    public User getUserFromUsername(String username)
+    public void createLinkedUserGroup(User user)
     {
-        try {
-           List results = em.createNamedQuery("User.findByUUsername").setParameter("uUsername", username).getResultList();
-           return (User) results.get(0);
-        }
-        catch(Exception e)
-        {
-            System.out.println("GET USER FROM USERNAME ERROR !");
-            JsfUtil.addErrorMessage(e,"KO");
-        }
-        return null;
+        UserGroup userGroup = new UserGroup();
+        userGroup.setFkUsername(user.getUUsername());
+        userGroup.setFkGroup("User");
+        System.out.println("CREATE LINKED USER GROUP "+userGroup);
+        getEntityManager().persist(userGroup);
+    }
+    
+    public void removeLinkedUserGroup(User user)
+    {
+        List results = getEntityManager().createNamedQuery("UserGroup.findByFkUsername").setParameter("fkUsername", user.getUUsername()).getResultList();       
+        
+        results.stream().forEach((result) -> {
+            getEntityManager().remove(result);
+        });
     }
     
 }
