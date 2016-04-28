@@ -30,7 +30,7 @@ import javax.persistence.EntityManager;
 
 
 @ManagedBean(name = "albumController")
-@RequestScoped
+@SessionScoped
 public class AlbumController implements Serializable {
 
     public Album current;
@@ -49,7 +49,7 @@ public class AlbumController implements Serializable {
         listRandAlbum = getFacade().findAll();
         
         if(listRandAlbum.size() > 3){
-            listRandAlbum = listRandAlbum.subList(0, 2);
+            listRandAlbum = listRandAlbum.subList(0, 3);
         }
         
         return listRandAlbum;
@@ -114,6 +114,22 @@ public class AlbumController implements Serializable {
     public String prepareList() {
         recreateModel();
         return "List";
+    }
+    
+    
+    public String prepareViewAlbum(){
+
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/album/View.xhtml");
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	int idAlbum = Integer.parseInt(params.get("idAlbum"));
+        
+        current = getFacade().getAlbum(idAlbum);
+
+        //selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        
+        return "View";
     }
 
     public String prepareView() {
