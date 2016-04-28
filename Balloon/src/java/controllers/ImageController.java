@@ -222,6 +222,7 @@ public class ImageController implements Serializable {
     public String destroy() {
         current = (Image) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+          
         performDestroy();
         recreatePagination();
         recreateModel();
@@ -249,7 +250,8 @@ public class ImageController implements Serializable {
     }
 
     private void performDestroy() {
-        try {
+        
+        try{
             getFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ImageDeleted"));
         } catch (Exception e) {
