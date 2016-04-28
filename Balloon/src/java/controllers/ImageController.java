@@ -173,10 +173,10 @@ public class ImageController implements Serializable {
         Part file = (Part)value;
         //TODO ?
         /**if (file.getSize() > 1024) {
-          msgs.add(new FacesMessage("mec... ici c'est pas iCloud, ton image est trop grande !"));
+          msgs.add(new FacesMessage("Image est trop grande !"));
         }**/
         if (!("image/jpeg".equals(file.getContentType()) || "image/png".equals(file.getContentType()))) {
-          msgs.add(new FacesMessage("Une image stp... une image JPG ou PNG" ));
+          msgs.add(new FacesMessage("Une image JPG ou PNG" ));
         }
         if (!msgs.isEmpty()) {
           throw new ValidatorException(msgs);

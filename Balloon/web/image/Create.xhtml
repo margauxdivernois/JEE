@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateImageLabel_IFilename}" for="uploadfile" />
                     <div class="col-sm-10">
-                        <h:inputFile id="uploadfile" value="#{imageController.file1}" validator="#{imageController.validateFile}"/>
+                        <h:inputFile id="uploadfile" required="true" value="#{imageController.file1}" validator="#{imageController.validateFile}"/>
                     </div>
                 </div>
                 
