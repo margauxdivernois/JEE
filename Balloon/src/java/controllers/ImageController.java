@@ -90,7 +90,7 @@ public class ImageController implements Serializable {
 	int idImg = Integer.parseInt(params.get("idImage"));
         current = getFacade().getImage(idImg);
     }
-    public void addImageFromAlbum(){
+    public String addImageFromAlbum(){
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/image/Create.xhtml");
         
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -100,6 +100,8 @@ public class ImageController implements Serializable {
         current = new Image();
         selectedItemIndex = -1;
         current.setFkAlbum(getFacade().getAlbum(fkAlbum));
+        
+        return "Create";
     }
 
     public Image getSelected() {
@@ -392,7 +394,6 @@ public class ImageController implements Serializable {
     
     public void love(String username)
     {
-        System.out.println("LOVE FROM IMAGE !!");
         Love love = new Love();
         love.setFkImage(current);
         current.addLove(love);

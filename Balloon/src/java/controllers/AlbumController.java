@@ -89,7 +89,7 @@ public class AlbumController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+            pagination = new PaginationHelper(8) {
 
                 @Override
                 public int getItemsCount() {

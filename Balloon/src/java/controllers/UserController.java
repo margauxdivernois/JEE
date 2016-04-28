@@ -6,11 +6,13 @@ import controllers.util.PaginationHelper;
 import facades.UserFacade;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -82,9 +84,10 @@ public class UserController implements Serializable {
 
     public String create() {
         try {
+            getFacade().createLinkedUserGroup(current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
-            return prepareCreate();
+            return "/index.html";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -101,20 +104,25 @@ public class UserController implements Serializable {
         try {
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserUpdated"));
-            return "View";
+            return "/index.html";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
         }
     }
 
-    public String destroy() {
+    public void destroy() {
         current = (User) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        
+        getFacade().removeLinkedUserGroup(current);
+        
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+                
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/index.xhtml");
     }
 
     public String destroyAndView() {
@@ -232,5 +240,17 @@ public class UserController implements Serializable {
     public int getUserID(String username)
     {
         return getFacade().getCurrentUser(username).getIdUser();
+    }
+    
+    public String editCurrentUser()
+    {
+        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/user/Edit.xhtml");
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+	String username = params.get("username");
+        
+        current = (User) getFacade().getCurrentUser(username);
+        return "Edit";
     }
 }

@@ -10,32 +10,39 @@
             <h:outputText value="#{bundle.EditUserTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            
             <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditUserLabel_idUser}" for="idUser" />
-                    <h:inputText id="idUser" value="#{userController.selected.idUser}" title="#{bundle.EditUserTitle_idUser}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_idUser}"/>
-                    <h:outputLabel value="#{bundle.EditUserLabel_UUsername}" for="UUsername" />
-                    <h:inputText id="UUsername" value="#{userController.selected.UUsername}" title="#{bundle.EditUserTitle_UUsername}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_UUsername}"/>
-                    <h:outputLabel value="#{bundle.EditUserLabel_UEmail}" for="UEmail" />
-                    <h:inputText id="UEmail" value="#{userController.selected.UEmail}" title="#{bundle.EditUserTitle_UEmail}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_UEmail}"/>
-                    <h:outputLabel value="#{bundle.EditUserLabel_UPassword}" for="UPassword" />
-                    <h:inputText id="UPassword" value="#{userController.selected.UPassword}" title="#{bundle.EditUserTitle_UPassword}" required="true" requiredMessage="#{bundle.EditUserRequiredMessage_UPassword}"/>
-                    <h:outputLabel value="#{bundle.EditUserLabel_UIcon}" for="UIcon" />
-                    <h:inputText id="UIcon" value="#{userController.selected.UIcon}" title="#{bundle.EditUserTitle_UIcon}" />
-                </h:panelGrid>
-                <h:commandLink action="#{userController.update}" value="#{bundle.EditUserSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditUserViewLink}"/>
-                <br />
-                <h:commandLink action="#{userController.prepareList}" value="#{bundle.EditUserShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditUserIndexLink}" />
+            
+            <h:form class="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditUserLabel_UUsername}" for="UUsername" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UUsername" class="disabled" disabled="true" value="#{userController.selected.UUsername}" title="#{bundle.EditUserTitle_UUsername}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditUserLabel_UEmail}" for="UEmail" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UEmail" value="#{userController.selected.UEmail}" title="#{bundle.EditUserTitle_UEmail}"/>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditUserLabel_UIcon}" for="UIcon" />
+                    <div class="col-sm-10">
+                        <h:inputText id="UIcon" value="#{userController.selected.UIcon}" title="#{bundle.EditUserTitle_UIcon}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <h:commandButton class="btn btn-primary" action="#{userController.update}" value="#{bundle.EditUserSaveLink}" />
+                        <h:commandButton class="btn btn-danger margin-side" action="#{userController.destroy()}" value="#{bundle.UnSubscribeLink}"  onclick="return confirm('Your account will be deleted and ALL your pictures. Are you sure?')"/>
+                        <h:link outcome="/index" class="btn btn-default" value="#{bundle.EditUserCancelLink}"/>
+                    </div>
+                </div>
             </h:form>
+            
         </ui:define>
     </ui:composition>
 
