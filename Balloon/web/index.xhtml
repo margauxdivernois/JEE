@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      template="template.xhtml">
-    
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition template="/template.xhtml">
     <ui:define name="slider">
         
             <!-- Carousel
@@ -50,36 +51,36 @@
     </ui:define>
     
     
+    
     <ui:define name="pageName">Balloon</ui:define>
     
     <ui:define name="body">
         
+        
+        
+        
         <div class="row">
-            <div class="col-lg-4">
+            <ui:repeat value="#{albumController.listRandAlbum}" var="album">     
+                   
+                <div class="col-lg-4">
               
-              <h2 class="header-apercu">
-                  <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140" />
-                  <br/>Heading
-              </h2>
-              <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <h2 class="header-apercu">
-                  <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140" />
-                  <br/>Heading
-              </h2>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <h2 class="header-apercu">
-                  <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140" />
-                  <br/>Heading
-              </h2>
-              <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-              <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-            </div><!-- /.col-lg-4 -->
+                    <h2 class="header-apercu">
+                        <img class="img-circle" src="../resources/image/#{album.getRandomImage().IFilename}" alt="MainPicture" width="140" height="140"/>
+          
+                        <br/> #{album.AName}
+                    </h2>
+                    <p> #{album.ADescription}</p>
+                    <h:form>
+                        <p><h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/></p>
+                    </h:form>
+                </div><!-- /.col-lg-4 -->
+           
+            
+            </ui:repeat>
+            
+            
+            
+            
         </div>
         
         
@@ -100,3 +101,4 @@
     </ui:define>
     
 </ui:composition>
+</html>
