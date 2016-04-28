@@ -100,6 +100,8 @@ public class ImageController implements Serializable {
         current = new Image();
         selectedItemIndex = -1;
         current.setFkAlbum(getFacade().getAlbum(fkAlbum));
+        
+        return "Create";
     }
 
     public Image getSelected() {

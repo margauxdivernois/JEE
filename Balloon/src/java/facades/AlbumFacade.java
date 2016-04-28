@@ -9,6 +9,7 @@ import entities.Album;
 import entities.Image;
 import entities.Love;
 import entities.User;
+import java.util.List;
 import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,15 +49,16 @@ public class AlbumFacade extends AbstractFacade<Album> {
         return freshAlbum;
     }
     
-    /*public List<Album> getVisibleAlbums(){
+    public List<Album> getVisibleAlbums(){
+        
         EntityManager entityManager = getEntityManager();
 
         List results = entityManager.createNamedQuery("Album.findByApublicVisibility")
-            .setParameter("apublicVisibility", true)
+            .setParameter("apublicVisibility", 1)
             .getResultList();
         
         return results;
-    }*/
+    }
    
     
     public AlbumFacade() {

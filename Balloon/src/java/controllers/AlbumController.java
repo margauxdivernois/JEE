@@ -8,6 +8,7 @@ import entities.User;import facades.AlbumFacade;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -41,21 +42,26 @@ public class AlbumController implements Serializable {
     private int selectedItemIndex;
 
     
-    /*private List<Album> listRandAlbum;
+    private List<Album> listRandAlbum;
 
     public List<Album> getListRandAlbum() {
+        //listRandAlbum=getFacade().getVisibleAlbums(); //todo
+        listRandAlbum = getFacade().findAll();
+        
+        if(listRandAlbum.size() > 3){
+            listRandAlbum = listRandAlbum.subList(0, 2);
+        }
+        
         return listRandAlbum;
     }
 
     public void setListRandAlbum(List<Album> listRandAlbum) {
         this.listRandAlbum = listRandAlbum;
     }
-    */
     
     
     public AlbumController() {
-        //listRandAlbum = getFacade().getVisibleAlbums();
-        
+       
         
         System.out.println("ALBUM CONSTR");
     }
