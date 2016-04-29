@@ -19,6 +19,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -28,6 +29,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 
 
@@ -163,7 +165,9 @@ public class AlbumController implements Serializable {
 
     public String create() {
         try {
-            User currentUser = getFacade().getCurrentUser("Himi");
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest)context.getRequest();
+            User currentUser = getFacade().getCurrentUser(request.getRemoteUser());
             current.setFkUser(currentUser);
             
             getFacade().create(current);
@@ -271,6 +275,10 @@ public class AlbumController implements Serializable {
     }
     
     public int getCurrentPage() {
+        if(pagination.getItemsCount() == 0)
+        {
+            return 1;
+        }
         return ((pagination.getPageFirstItem() + 1)/ pagination.getItemsCount()) + 1;
     }
         
