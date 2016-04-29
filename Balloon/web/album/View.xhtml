@@ -21,7 +21,7 @@
                 <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
 
-            <h:form>
+            <h:form id="albumViewForm">
                 <div class="panel panel-default">
                     
                     <div class="panel-body">
@@ -79,7 +79,7 @@
                 
                 <c:if test="#{not empty request.remoteUser and albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
                 
-                    <h:commandButton action="#{imageController.addImageFromAlbum}" class="btn btn-success btn-block" value="#{bundle.ListImageCreateLink}">
+                    <h:commandButton id="createImage" action="#{imageController.addImageFromAlbum}" class="btn btn-success btn-block" value="#{bundle.ListImageCreateLink}">
                         <f:param name="idAlbum" value="#{albumController.selected.idAlbum}" />
                     </h:commandButton>
                     <br/><br/>

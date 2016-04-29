@@ -30,23 +30,3 @@
     width: 100%;
     height: auto;
 }
-
-.home-thumbnail {
-  position: relative;
-  min-width: 140px;
-  min-height: 140px;
-  width: inherit;
-  height: inherit;
-  overflow: hidden;
-}
-
-.album-thumbnail img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
-}

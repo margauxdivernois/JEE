@@ -13,7 +13,7 @@
         <ui:define name="action">
             <c:if test="#{albumController.items.rowCount != 0 and not empty request.remoteUser}">
                 <h:form id="albumList">
-                    <h:commandButton class="btn btn-primary" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
+                    <h:commandButton class="btn btn-primary" id="albumCreateBtn" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
                 </h:form>
             </c:if>
         </ui:define>
