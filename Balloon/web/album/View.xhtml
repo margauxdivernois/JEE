@@ -66,9 +66,9 @@
                                 </table>
                                 
                                 <c:if test="#{not empty request.remoteUser and albumController.isAlbumOwner(albumController.selected, request.remoteUser)}">
-                                    <h:form>
+                                    <h:form id="albumView">
                                         <h:link outcome="Edit" class="btn btn-primary" value="#{bundle.ViewAlbumEditLink}"/>
-                                        <h:commandButton class="btn btn-danger margin-side" action="#{albumController.destroyAndViewList}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
+                                        <h:commandButton id="albumViewBtn" class="btn btn-danger margin-side" action="#{albumController.destroyAndViewList}" value="#{bundle.ViewAlbumDestroyLink}" onclick="return confirm('L\'album sera intégralement supprimé. Êtes vous sûr de vouloir poursuivre?')"/>
                                     </h:form>
                                 </c:if>
 

@@ -12,14 +12,14 @@
         </ui:define>
         <ui:define name="action">
             <c:if test="#{albumController.items.rowCount != 0 and not empty request.remoteUser}">
-                <h:form>
+                <h:form id="albumList">
                     <h:commandButton class="btn btn-primary" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
                 </h:form>
             </c:if>
         </ui:define>
         <ui:define name="body">
             <div class="row">
-                <h:form class="form-horizontal">
+                <h:form class="form-horizontal" id="albumListView">
                     <h:panelGroup id="messagePanel" layout="block">
                         <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
                     </h:panelGroup>
@@ -28,8 +28,8 @@
                         <div class="col-md-12">
                             <div class="alert alert-info" role="alert">
                                 <p><h:outputText escape="false" value="#{bundle.ListAlbumEmpty}"/></p>
-                                <p><h:form>
-                                    <h:commandButton class="btn btn-primary" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
+                                <p><h:form id="albumList1">
+                                    <h:commandButton class="btn btn-primary" id="albumListBtn" action="#{albumController.prepareCreate}" value="#{bundle.ListAlbumCreateLink}"/>
                                 </h:form></p>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 </h3>
                                 <p><h:outputText value="#{album.ADescription}"/></p>
                                 <p style="font-style: italic;"><h:outputText value="Pas de description" rendered="#{empty album.ADescription}" /></p>
-                                <h:commandButton class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/>
+                                <h:commandButton id="albumListViewBtn" class="btn btn-primary" action="#{albumController.prepareView}" value="#{bundle.ListAlbumViewLink}"/>
                                 <c:if test="#{not empty request.remoteUser}">
                                     <ui:fragment rendered="#{album.fkUser.idUser == userController.getUserID(request.remoteUser)}">
                                         <h:commandLink class="btn btn-default margin-side" action="#{albumController.prepareEdit}">
