@@ -7,7 +7,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><ui:insert name="pageName">Default Title</ui:insert></title>
+        <title><ui:insert name="pageName">Balloon</ui:insert></title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"/>
@@ -22,35 +22,36 @@
         
         <nav class="navbar navbar-inverse mynav" style="margin-bottom: 0">
             
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/Balloon"><i class="fa fa-picture-o" aria-hidden="true"></i> Balloon</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <div class="navbar-form navbar-right">
-                
-                <ul class="nav navbar-nav">
-                      <ui:fragment rendered="#{empty request.remoteUser}">
-                          <h:link outcome="/login" value="Sign in" class="btn btn-success" />
-                          <h:link outcome="/register" value="Register" class="btn btn-primary margin-side"/>
-                      </ui:fragment>
-                      <ui:fragment rendered="#{not empty request.remoteUser}">
-                          <h:form>
-                              <h:commandLink action="#{userController.editCurrentUser}" value="Edit your profile" class="btn btn-default">
-                                  <f:param name="username" value="#{request.remoteUser}" />
-                              </h:commandLink>
-                              <h:commandLink action="#{request.logout()}" value="Logout" class="btn btn-danger margin-side"  />
-                          </h:form>
-
-                      </ui:fragment>
-                </ul>
-                
-              
-            </div>
-              
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/Balloon"><i class="fa fa-picture-o" aria-hidden="true"></i> Balloon</a>
+                    
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button></div>
             
-          </div><!--/.navbar-collapse -->
-        </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-form navbar-right" style="text-align: center">
+                    <h:form>
+                        <h:commandLink action="#{albumController.accessList}" value="Albums" class="btn btn-primary margin-side"/>
+                        <ui:fragment rendered="#{empty request.remoteUser}">
+                            <h:link outcome="/login" value="Sign in" class="btn btn-success" />
+                            <h:link outcome="/register" value="Register" class="btn btn-primary margin-side"/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{not empty request.remoteUser}">
+                                <h:commandLink action="#{userController.editCurrentUser}" value="Edit your profile" class="btn btn-default">
+                                    <f:param name="username" value="#{request.remoteUser}" />
+                                </h:commandLink>
+                                <h:commandLink action="#{request.logout()}" value="Logout" class="btn btn-danger margin-side"  />
+                        </ui:fragment>
+                        </h:form>
+                    </ul>
+            </div>
+            </div>
         </nav>
         
         <ui:insert name="slider"></ui:insert>

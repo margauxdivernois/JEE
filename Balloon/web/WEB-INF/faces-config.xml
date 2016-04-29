@@ -25,5 +25,21 @@
                 <to-view-id>/user/Create.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-        
+            
+    <managed-bean>
+        <managed-bean-name>albumController</managed-bean-name>
+        <managed-bean-class>controllers.AlbumController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>imageController</managed-bean-name>
+        <managed-bean-class>controllers.ImageController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>albumController</property-name>
+            <value>#{albumController}</value>
+        </managed-property>
+    </managed-bean>
+
 </faces-config>

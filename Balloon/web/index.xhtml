@@ -34,7 +34,7 @@
               <div class="carousel-caption">
                 <h1>Curieux ?</h1>
                 <p>Si vous aimez les ragots et si vous êtes une mauvaise langue alors Balloon est parfait pour vous !</p>
-                <p><h:link outcome="/album/List" value="TOUT voire !" class="btn btn-lg btn-primary"/></p>
+                <p><h:link outcome="/album/List" value="TOUT voir !" class="btn btn-lg btn-primary"/></p>
               </div>
             </div>
           </div>
@@ -64,8 +64,8 @@
                    
                 <div class="col-lg-4">
               
-                    <h2 class="header-apercu">
-                        <img class="img-circle" src="resources/image/#{album.getRandomImage().IFilename}" alt="MainPicture" width="140" height="140"/>
+                    <h2 class="header-apercu home-thumbnail">
+                        <img class="img-circle " src="resources/image/#{album.getRandomImage().IFilename}" alt="MainPicture" width="140" height="140"/>
           
                         <br/> #{album.AName}
                     </h2>
@@ -83,10 +83,7 @@
             
             
             
-        </div>
-     
-
-    </ui:define>
+        </div>    </ui:define>
     
 </ui:composition>
 </html>

@@ -11,49 +11,58 @@
         </ui:define>
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditImageLabel_idImage}" for="idImage" />
-                    <h:inputText id="idImage" value="#{imageController.selected.idImage}" title="#{bundle.EditImageTitle_idImage}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_idImage}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_IName}" for="IName" />
-                    <h:inputText id="IName" value="#{imageController.selected.IName}" title="#{bundle.EditImageTitle_IName}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_IName}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_IFilename}" for="IFilename" />
-                    <h:inputText id="IFilename" value="#{imageController.selected.IFilename}" title="#{bundle.EditImageTitle_IFilename}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_IFilename}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_IDescription}" for="IDescription" />
-                    <h:inputTextarea rows="4" cols="30" id="IDescription" value="#{imageController.selected.IDescription}" title="#{bundle.EditImageTitle_IDescription}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_IDescription}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_idateCapture}" for="idateCapture" />
-                    <h:inputText id="idateCapture" value="#{imageController.selected.idateCapture}" title="#{bundle.EditImageTitle_idateCapture}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_idateCapture}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
-                    <h:outputLabel value="#{bundle.EditImageLabel_idateUpload}" for="idateUpload" />
-                    <h:inputText id="idateUpload" value="#{imageController.selected.idateUpload}" title="#{bundle.EditImageTitle_idateUpload}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_idateUpload}">
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
-                    <h:outputLabel value="#{bundle.EditImageLabel_ICopyright}" for="ICopyright" />
-                    <h:inputTextarea rows="4" cols="30" id="ICopyright" value="#{imageController.selected.ICopyright}" title="#{bundle.EditImageTitle_ICopyright}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_ICopyright}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_ILatititude}" for="ILatititude" />
-                    <h:inputText id="ILatititude" value="#{imageController.selected.ILatititude}" title="#{bundle.EditImageTitle_ILatititude}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_ILatititude}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_ILongitude}" for="ILongitude" />
-                    <h:inputText id="ILongitude" value="#{imageController.selected.ILongitude}" title="#{bundle.EditImageTitle_ILongitude}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_ILongitude}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_ICamera}" for="ICamera" />
-                    <h:inputText id="ICamera" value="#{imageController.selected.ICamera}" title="#{bundle.EditImageTitle_ICamera}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_ICamera}"/>
-                    <h:outputLabel value="#{bundle.EditImageLabel_fkAlbum}" for="fkAlbum" />
-                    <h:selectOneMenu id="fkAlbum" value="#{imageController.selected.fkAlbum}" title="#{bundle.EditImageTitle_fkAlbum}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_fkAlbum}">
-                        <f:selectItems value="#{albumController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                </h:panelGrid>
-                <h:commandLink action="#{imageController.update}" value="#{bundle.EditImageSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditImageViewLink}"/>
-                <br />
-                <h:commandLink action="#{imageController.prepareList}" value="#{bundle.EditImageShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditImageIndexLink}" />
+            
+            <h:form enctype="multipart/form-data" class="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditImageLabel_IName}" for="IName" />
+                    <div class="col-sm-10">
+                        <h:inputText id="IName" value="#{imageController.selected.IName}" title="#{bundle.EditImageTitle_IName}" required="true" requiredMessage="#{bundle.EditImageRequiredMessage_IName}"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditImageLabel_IDescription}" for="IDescription" />
+                    <div class="col-sm-10">
+                        <h:inputTextarea rows="4" cols="30" id="IDescription" value="#{imageController.selected.IDescription}" title="#{bundle.CreateImageTitle_IDescription}" required="true" requiredMessage="#{bundle.CreateImageRequiredMessage_IDescription}"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditImageLabel_ICopyright}" for="ICopyright" />
+                    <div class="col-sm-10">
+                        <h:inputTextarea rows="4" cols="30" id="ICopyright" value="#{imageController.selected.ICopyright}" title="#{bundle.CreateImageTitle_ICopyright}"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditImageLabel_idateCapture}" for="idateCapture" />
+                    <div class="col-sm-10">
+                        <h:inputText id="idateCapture" value="#{imageController.selected.idateCapture}" title="#{bundle.EditImageTitle_idateCapture}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:inputText>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditImageLabel_ICamera}" for="ICamera" />
+                    <div class="col-sm-10">
+                        <h:inputText id="ICamera" value="#{imageController.selected.ICamera}" title="#{bundle.EditImageTitle_ICamera}"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <h:commandButton class="btn btn-primary" action="#{imageController.update}" value="#{bundle.EditImageSaveLink}" />
+                        <h:commandButton class="btn btn-default margin-side"  action="#{albumController.returnAlbum}" value="#{bundle.ViewImageReturnAlbumLink}">
+                            <f:param name="idAlbum" value="#{imageController.selected.fkAlbum.idAlbum}" />
+                        </h:commandButton>
+                    </div>
+                </div>
+                
             </h:form>
+                
         </ui:define>
     </ui:composition>
 
