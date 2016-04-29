@@ -112,9 +112,12 @@ public class UserController implements Serializable {
     }
 
     public void destroy() {
-        current = (User) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        /*current = (User) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();*/
         
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest)context.getRequest();
+        current = getFacade().getCurrentUser(request.getRemoteUser());
         getFacade().removeLinkedUserGroup(current);
         
         performDestroy();
