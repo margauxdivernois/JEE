@@ -12,7 +12,7 @@
         </ui:define>
         
         <ui:define name="action">
-            <h:form>
+            <h:form id="albumView">
                 
                 <c:if test="#{not empty request.remoteUser}">
                     <c:if test="#{imageController.isImageOwner(request.remoteUser)}">

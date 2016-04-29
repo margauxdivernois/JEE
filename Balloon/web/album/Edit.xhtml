@@ -15,7 +15,7 @@
                 <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
             
-            <h:form class="form-horizontal">
+            <h:form class="form-horizontal" id="albumEdit">
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.CreateAlbumLabel_AName}" for="AName" />
                     <div class="col-sm-10">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
-                        <h:commandButton class="btn btn-primary" action="#{albumController.update}" value="#{bundle.EditAlbumSaveLink}" />
+                        <h:commandButton id="albumEditBtn" class="btn btn-primary" action="#{albumController.update}" value="#{bundle.EditAlbumSaveLink}" />
                         <h:link outcome="/index" class="btn btn-default margin-side" value="#{bundle.EditAlbumCancelLink}"/>
                     </div>
                 </div>
