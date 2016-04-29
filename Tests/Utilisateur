@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="Utilisateur-Inscription-Success.html">Inscription.Valide</a></td></tr>
+<tr><td><a href="Utilisateur-Inscription-Doublon.html">Inscription.DoublonUsername</a></td></tr>
+<tr><td><a href="Utilisateur-Inscription-DoublonEmail.html">Inscription.DoublonEmail</a></td></tr>
+<tr><td><a href="Utilisateur-Connexion-Success.html">Connexion.Reussie</a></td></tr>
+<tr><td><a href="Utilisateur-Deconnexion-Success.html">Déconnexion.Réussie</a></td></tr>
+<tr><td><a href="Utilisateur-Connexion-WrongPassword.html">Connexion.MotDePasseIncorrect</a></td></tr>
+<tr><td><a href="Utilisateur-Connexion-WrongUser.html">Connexion.UsernameIncorrect</a></td></tr>
+<tr><td><a href="Utilisateur-Connexion-Success.html">Utilisateur-Connexion-Success</a></td></tr>
+<tr><td><a href="Utilisateur-Desinscription-Success.html">Desinscription.Succès</a></td></tr>
+</tbody></table>
+</body>
+</html>

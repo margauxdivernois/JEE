@@ -87,7 +87,7 @@ public class UserController implements Serializable {
             getFacade().createLinkedUserGroup(current);
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserCreated"));
-            return "/index.html";
+            return "/index.xhtml";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -112,9 +112,12 @@ public class UserController implements Serializable {
     }
 
     public void destroy() {
-        current = (User) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        /*current = (User) getItems().getRowData();
+        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();*/
         
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest)context.getRequest();
+        current = getFacade().getCurrentUser(request.getRemoteUser());
         getFacade().removeLinkedUserGroup(current);
         
         performDestroy();
