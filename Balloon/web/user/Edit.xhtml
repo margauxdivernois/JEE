@@ -15,7 +15,7 @@
                 <h:messages errorClass="alert alert-warning" infoClass="alert alert-success"/>
             </h:panelGroup>
             
-            <h:form class="form-horizontal">
+            <h:form id="userEdit" class="form-horizontal">
                 <div class="form-group">
                     <h:outputLabel class="col-sm-2 control-label" value="#{bundle.EditUserLabel_UUsername}" for="UUsername" />
                     <div class="col-sm-10">
@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
                         <h:commandButton class="btn btn-primary" action="#{userController.update}" value="#{bundle.EditUserSaveLink}" />
-                        <h:commandButton class="btn btn-danger margin-side" action="#{userController.destroy()}" value="#{bundle.UnSubscribeLink}"  onclick="return confirm('Your account will be deleted and ALL your pictures. Are you sure?')"/>
+                        <h:commandButton class="btn btn-danger margin-side" id="unsubscribe" action="#{userController.destroy()}" value="#{bundle.UnSubscribeLink}"  onclick="return confirm('Your account will be deleted and ALL your pictures. Are you sure?')"/>
                         <h:link outcome="/index" class="btn btn-default" value="#{bundle.EditUserCancelLink}"/>
                     </div>
                 </div>
